@@ -51,34 +51,11 @@ public class SlotsGame extends BasicCasinoGame {
         Coins.set(-bet, true);
 
         //Rolling slots
-        //slot1
-        slot = Random.RInt(5);
-        if (slot == 1) slots[1] = "$";
-        if (slot == 2) slots[1] = "%";
-        if (slot == 3) slots[1] = "&";
-        if (slot == 4) slots[1] = "*";
-        if (slot == 5) slots[1] = "@";
-        //slot2
-        slot = Random.RInt(5);
-        if (slot == 1) slots[2] = "$";
-        if (slot == 2) slots[2] = "%";
-        if (slot == 3) slots[2] = "&";
-        if (slot == 4) slots[2] = "*";
-        if (slot == 5) slots[2] = "@";
-        //slot3
-        slot = Random.RInt(5);
-        if (slot == 1) slots[3] = "$";
-        if (slot == 2) slots[3] = "%";
-        if (slot == 3) slots[3] = "&";
-        if (slot == 4) slots[3] = "*";
-        if (slot == 5) slots[3] = "@";
-        //slot4
-        slot = Random.RInt(5);
-        if (slot == 1) slots[4] = "$";
-        if (slot == 2) slots[4] = "%";
-        if (slot == 3) slots[4] = "&";
-        if (slot == 4) slots[4] = "*";
-        if (slot == 5) slots[4] = "@";
+        String[] symbols = {"$", "%", "&", "*", "@"};
+        
+        for (int i = 1; i <= 4; i++) {
+            slots[i] = symbols[Random.RInt(symbols.length)];
+        }
 
         //Result
         Ui.cls();
