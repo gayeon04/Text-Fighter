@@ -5,6 +5,7 @@ public class Coins {
     private static int coins;
     private static int bank;
 
+    public static final int LOTTERY_THRESHOLD = 1000; // 적절한 값으로
 
     private Coins() {
     }

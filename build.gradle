@@ -8,10 +8,9 @@ repositories {
 }
 
 dependencies {
-    // Use JUnit test framework
     testImplementation 'org.junit.jupiter:junit-jupiter:5.+'
     testImplementation 'junit:junit:4.+'
-    // This dependency is found on compile classpath of this component and consumers.
+    testImplementation 'org.mockito:mockito-core:5.+'
     implementation 'com.google.guava:guava:31.0.1-jre'
     implementation 'org.yaml:snakeyaml:1.+'
 }
@@ -20,6 +19,16 @@ sourceSets {
     main {
         java {
             srcDirs 'src'
+            // 테스트 파일 제외
+            exclude '**/*Test.java'
+            exclude '**/tests/**'
+        }
+    }
+    test {
+        java {
+            srcDirs 'src'
+            include '**/*Test.java'
+            include '**/tests/**'
         }
     }
 }
