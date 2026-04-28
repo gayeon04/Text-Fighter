@@ -58,3 +58,7 @@ tasks.named('test') {
 run{
     standardInput = System.in
 }
+
+tasks.withType(JavaExec) {
+    environment 'JAVA_TOOL_OPTIONS', '-Dfile.encoding=UTF-8 -Dstdout.encoding=UTF-8'
+}
