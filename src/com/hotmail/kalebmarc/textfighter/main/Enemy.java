@@ -207,6 +207,14 @@ public class Enemy {
         return healthMax;
     }
 
+    public int getDamageMin() {
+        return damageMin;
+    }
+
+    public int getDamageMax() {
+        return damageMax;
+    }
+
     public String getHeathStr() {
         return (health + "/" + healthMax);
     }

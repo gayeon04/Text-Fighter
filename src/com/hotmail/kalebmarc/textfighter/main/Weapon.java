@@ -202,6 +202,14 @@ public class Weapon implements Comparable<Weapon> {
         return this.damageDealt;
     }
 
+    public int getDamageMin() {
+        return this.damageMin;
+    }
+
+    public int getDamageMax() {
+        return this.damageMax;
+    }
+
     public void dealDam() {
 
         if (this.melee) {
@@ -274,10 +282,10 @@ public class Weapon implements Comparable<Weapon> {
 
         }
     }
-    
+
     private void bulletCriticalHit() {
-    	
-    	if (bulletWasCriticalHit()) {
+
+        if (bulletWasCriticalHit()) {
 
             damageDealt *= Weapon.BULLET_CRITICAL_MULTIPLIER;
 
@@ -294,9 +302,9 @@ public class Weapon implements Comparable<Weapon> {
     private boolean wasCriticalHit() {
         return Random.RInt((int) (100 / this.critChanceMultiplier)) == 1;
     }
-    
+
     private boolean bulletWasCriticalHit() {
-    	return Random.RInt((int) (100 / Weapon.BULLET_CRITICAL_CHANCE)) == 1;
+        return Random.RInt((int) (100 / Weapon.BULLET_CRITICAL_CHANCE)) == 1;
     }
 
     public void viewAbout() {
