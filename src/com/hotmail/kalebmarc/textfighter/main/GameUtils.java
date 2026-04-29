@@ -36,7 +36,7 @@ public class GameUtils {
 
     for (int i = 0; i < inputs.size(); i++) {
       int input_num = i + 1; // This addition is because our switch case starts from Case 1 and not Case 0
-      String input = input_num + "- " + inputs.get(i);
+      String input = input_num + ") " + inputs.get(i);
       println(leftAlign(input));
     }
 

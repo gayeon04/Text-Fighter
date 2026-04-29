@@ -108,7 +108,7 @@ public class Enemy {
         current.health = current.healthMax;
         current.firstAidKit = Random.RInt(FIRST_AID_KIT_MIN, FIRST_AID_KIT_MAX);
         com.hotmail.kalebmarc.textfighter.player.Xp.setBattleXp(0, false);
-        Ui.popup("You have encountered a " + current.getName(), "Encounter", JOptionPane.INFORMATION_MESSAGE);
+        Ui.popup(current.getName() + "을(를) 만났습니다!", "조우!", JOptionPane.INFORMATION_MESSAGE);
 
     }
 
@@ -117,7 +117,7 @@ public class Enemy {
         if (found <= 2 && !Game.pipe.owns) {
             Game.pipe.owns = true;
             Weapon.set(Game.pipe);
-            Ui.popup("You have found an old pipe!", "You found something!", JOptionPane.INFORMATION_MESSAGE);
+            Ui.popup("낡은 파이프를 발견했습니다!", "아이템 발견!", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -145,7 +145,7 @@ public class Enemy {
         com.hotmail.kalebmarc.textfighter.player.Xp.setBattleXp(0, false);
 
         //Prompt enemy death
-        Ui.popup("You have defeated an enemy, dealing " + Weapon.get().getDamageDealt() + " damage! You've found " + tempCoin + " coins, and " + totalXp + "Xp!", "You've defeated an enemy!", JOptionPane.PLAIN_MESSAGE);
+        Ui.popup("적을 쓰러뜨렸습니다!\n총 데미지: " + Weapon.get().getDamageDealt() + "\n획득 코인: " + tempCoin + "  |  획득 경험치: " + totalXp + " XP", "적 처치!", JOptionPane.PLAIN_MESSAGE);
 
         //Rewards
         testFoundPipe();
@@ -177,7 +177,7 @@ public class Enemy {
         } else {
             this.firstAidKit--;
             this.takeDamage(-20);
-            Ui.msg("The " + this.name + " has used a first-aid kit. They gained 20 health");
+            Ui.msg(this.name + "이(가) 응급 치료 키트를 사용했습니다. 체력 20 회복!");
             return true;
         }
     }
@@ -239,11 +239,11 @@ public class Enemy {
         for (int i = 0; i < ((BORDER_LENGTH / 2) - (this.getName().length() / 2)); i++)
             Ui.print(" ");//Set correct spacing to get name in middle of box
         Ui.println(this.getName());
-        Ui.println("Health: " + this.getHealthMax());
-        Ui.println("Damage: " + this.damageMin + "-" + this.damageMax);
-        Ui.println("Coin Drop: " + this.coinDropMin + "-" + this.coinDropMax);
+        Ui.println("체력:       " + this.getHealthMax());
+        Ui.println("데미지:     " + this.damageMin + "~" + this.damageMax);
+        Ui.println("코인 드롭:  " + this.coinDropMin + "~" + this.coinDropMax);
         Ui.println();
-        Ui.println("XP Dropped: " + this.xp + "Xp");
+        Ui.println("경험치 드롭: " + this.xp + " XP");
         for (int i = 0; i < 39; i++) Ui.print("-");//Make line
         Ui.pause();
         Ui.cls();

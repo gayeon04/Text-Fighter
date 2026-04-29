@@ -18,15 +18,15 @@ public class Settings {
         while (true) {
 
             Ui.cls();
-            Ui.println("-------------------------------------------------");
-            Ui.println("                  Settings                  ");
-            Ui.println();
-            Ui.println("1) Switch Difficulties (Currently on " + difficulty + ".)");
-            Ui.println("2) Lock Difficulty on " + difficulty);
-            Ui.println("3) Lock cheats off (Wont be able to use cheats)");
-            Ui.println("4) Toggle popup windows");//TODO State whether enabled or not
-            Ui.println("5) Back");
-            Ui.println("-------------------------------------------------");
+            Ui.println("============================================================");
+            Ui.println("  [ 설정 ]");
+            Ui.println("============================================================");
+            Ui.println("  1) 난이도 변경 (현재: " + difficulty + ")");
+            Ui.println("  2) " + difficulty + " 난이도 고정");
+            Ui.println("  3) 치트 잠금 (이후 치트 사용 불가)");
+            Ui.println("  4) 팝업 창 토글");
+            Ui.println("  5) 뒤로");
+            Ui.println("============================================================");
 
             switch (Ui.getValidInt()) {
                 case 1:
@@ -41,10 +41,10 @@ public class Settings {
                 case 4:
                     if (Ui.guiEnabled) {
                         Ui.guiEnabled = false;
-                        Ui.msg("Popup windows disabled");
+                        Ui.msg("팝업 창이 비활성화되었습니다.");
                     } else {
                         Ui.guiEnabled = true;
-                        Ui.msg("Popup windows enabled");
+                        Ui.msg("팝업 창이 활성화되었습니다.");
                     }
                     break;
                 case 5:
@@ -63,7 +63,7 @@ public class Settings {
          * Make sure difficulty isn't locked
 		 */
         if (difLocked) {
-            Ui.msg("Difficulty is locked. You cannot switch difficulties.");
+            Ui.msg("난이도가 잠겨 있습니다. 변경할 수 없습니다.");
             return;
         }
 
@@ -79,19 +79,19 @@ public class Settings {
 		 * Make sure difficulty isn't already locked
 		 */
         if (difLocked) {
-            Ui.msg("Difficulty is already locked.");
+            Ui.msg("난이도가 이미 잠겨 있습니다.");
             return;
         }
 
         while (true) {
             Ui.cls();
-            Ui.println("Are you sure you want to lock the difficulty to " + difficulty + " ?\n"
-                    + "You wont be able to change difficulties in the future!");
-            Ui.println("1) Continue");
-            Ui.println("2) Cancel");
+            Ui.println(difficulty + " 난이도로 고정하시겠습니까?");
+            Ui.println("이후에는 난이도를 변경할 수 없습니다!");
+            Ui.println("1) 확인");
+            Ui.println("2) 취소");
             switch (Ui.getValidInt()) {
                 case 1:
-                    Ui.msg("Difficulty has been locked to " + difficulty);
+                    Ui.msg("난이도가 " + difficulty + "으로 고정되었습니다.");
                     difLocked = true;
                     return;
                 case 2:
@@ -105,7 +105,7 @@ public class Settings {
 		 * Make sure cheats aren't already locked
 		 */
         if (Cheats.locked()) {
-            Ui.msg("Cheats are already locked.");
+            Ui.msg("치트가 이미 잠겨 있습니다.");
             return;
         }
 
@@ -113,19 +113,19 @@ public class Settings {
 		 * Makes sure cheats aren't already enabled
 		 */
         if (Cheats.enabled()) {
-            Ui.msg("Cheats are already enabled. You cannot turn them off.");
+            Ui.msg("치트가 이미 활성화되어 있습니다. 비활성화할 수 없습니다.");
             return;
         }
 
         while (true) {
             Ui.cls();
-            Ui.println("Are you sure you want to lock cheats off?");
-            Ui.println("You wont be able to use cheats in the future!");
-            Ui.println("1) Continue");
-            Ui.println("2) Cancel");
+            Ui.println("정말로 치트를 잠그시겠습니까?");
+            Ui.println("이후에는 치트를 사용할 수 없습니다!");
+            Ui.println("1) 확인");
+            Ui.println("2) 취소");
             switch (Ui.getValidInt()) {
                 case 1:
-                    Ui.msg("Cheats have been locked off");
+                    Ui.msg("치트가 잠겼습니다.");
                     Cheats.lock();
                     return;
                 case 2:
@@ -268,7 +268,7 @@ public class Settings {
     //Returns message only if god mode is enabled
     public static String godModeMsg() {
         if (godMode) {
-            return "Godmode is enabled\n";
+            return "  [!] 갓모드 활성화됨\n";
         }
         return "";
     }
@@ -276,10 +276,10 @@ public class Settings {
     public static void toggleGodMode() {
         if (godMode) {
             godMode = false;
-            Ui.msg("Godmode has been disabled");
+            Ui.msg("갓모드가 비활성화되었습니다.");
         } else {
             godMode = true;
-            Ui.msg("Godmode has been enabled");
+            Ui.msg("갓모드가 활성화되었습니다.");
         }
     }
 }

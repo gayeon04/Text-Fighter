@@ -15,45 +15,39 @@ public class Bank {
 
         //Makes sure user level 2
         if (Xp.getLevel() < 2) {
-            Ui.msg("You have to be at least level 2 to use the bank.");
+            Ui.msg("은행을 이용하려면 최소 레벨 2가 필요합니다.");
             return;
         }
 
         while (true) {
 
             Ui.cls();
-            Ui.println("---------------------------------------");
-            Ui.println("                BANK              ");
-            Ui.println();
-            Ui.println("You can deposit your coins into");
-            Ui.println("the bank, so they will be safe if");
-            Ui.println("you die. However, you will need to");
-            Ui.println("pay " + (interest * 100) + "% of what you're depositing");
-            Ui.println("every time (Rounded to the nearest ");
-            Ui.println("whole number).");
-            Ui.println();
-            Ui.println("Balance (Coins in the bank): " + get());
-            Ui.println("Coins: " + Coins.get());
-            Ui.println();
-            Ui.println("1) Deposit");
-            Ui.println("2) Withdraw");
-            Ui.println("3) Loans");
-            Ui.println("4) Back");
-            Ui.println("---------------------------------------");
+            Ui.println("============================================================");
+            Ui.println("  [ 은행 ]");
+            Ui.println("============================================================");
+            Ui.println("  코인을 예금하면 사망 시에도 안전하게 보관됩니다.");
+            Ui.println("  단, 예금액의 " + (int)(interest * 100) + "% 를 수수료로 납부해야 합니다.");
+            Ui.println("------------------------------------------------------------");
+            Ui.println("  잔액:  " + get() + " 코인");
+            Ui.println("  보유:  " + Coins.get() + " 코인");
+            Ui.println("------------------------------------------------------------");
+            Ui.println("  1) 예금   2) 인출");
+            Ui.println("  3) 대출   4) 뒤로");
+            Ui.println("============================================================");
 
             switch (Ui.getValidInt()) {
                 case 1:
                     //-----------------------------------------------------------------------------------
                     if (Loan.hasLoan()) {
-                        Ui.msg("You can not deposit coins until you pay off your loan!");
+                        Ui.msg("대출을 모두 상환하기 전까지는 예금할 수 없습니다!");
                         break;
                     }
-                    Ui.println("How much money would you like to deposit? (You will have to pay " + (interest * 100) + "% of this)");
-                    Ui.println("You currently have " + Coins.get() + " coins.");
+                    Ui.println("얼마를 예금하시겠습니까? (수수료 " + (int)(interest * 100) + "% 차감)");
+                    Ui.println("현재 보유 코인: " + Coins.get());
                     do {
                         amount = Ui.getValidInt();
                         if (amount > Coins.get()) {
-                            Ui.println("You don't have enough coins. You only have " + Coins.get() + " coins.");
+                            Ui.println("코인이 부족합니다. 현재 " + Coins.get() + " 코인을 보유하고 있습니다.");
                             amount = -1;
                         }
                     } while (amount < 0);
@@ -68,12 +62,12 @@ public class Bank {
                     Ui.cls();
 
                     //Input
-                    Ui.println("How much money would you like to withdraw?");
-                    Ui.println("You currently have " + get() + " coins in your bank.");
+                    Ui.println("얼마를 인출하시겠습니까?");
+                    Ui.println("현재 잔액: " + get() + " 코인");
                     do {
                         amount = Ui.getValidInt();
                         if (amount > get()) {
-                            Ui.println("You don't have enough coins in your bank. You only have " + get() + " coins.");
+                            Ui.println("잔액이 부족합니다. 현재 잔액: " + get() + " 코인");
                             amount = -1;
                         }
                     } while (amount < 0);
@@ -115,8 +109,8 @@ public class Bank {
 
         //Result
         Ui.cls();
-        Ui.println("Amount withdrawn: " + amount);
-        Ui.println("Current Balance: " + get());
+        Ui.println("인출 금액: " + amount + " 코인");
+        Ui.println("현재 잔액: " + get() + " 코인");
         Ui.pause();
     }
 
@@ -139,9 +133,9 @@ public class Bank {
 
         //Display
         Ui.cls();
-        Ui.println("Amount Deposited: " + amount + " coins");
-        Ui.println("Interest Paid: " + Math.round(interest) + " coins");
-        Ui.println("Current Balance: " + get() + " coins");
+        Ui.println("예금 금액:    " + amount + " 코인");
+        Ui.println("납부 수수료:  " + Math.round(interest) + " 코인");
+        Ui.println("현재 잔액:   " + get() + " 코인");
         Ui.pause();
     }
 }

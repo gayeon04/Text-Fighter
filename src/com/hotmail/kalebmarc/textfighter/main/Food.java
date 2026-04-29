@@ -41,7 +41,7 @@ public class Food {
                     j++;
                 }
             }
-            Ui.println((j + 1) + ") Back");
+            Ui.println((j + 1) + ") 뒤로");
             while (true) {//Make it easy to break, without going back to main store menu
 
                 int menuItem = Ui.getValidInt();
@@ -59,7 +59,7 @@ public class Food {
                     //TODO once more status effects are implemented, use a switch here if appropriate.
                     //Testing to make sure the option is valid goes here:
                     if (getFoods().get(menuItem).getStatusEffect() == StatusEffect.type.HEALTH && Health.get() == Health.getOutOf()) {
-                        Ui.msg("Your health is already full. No need to eat this!");
+                        Ui.msg("체력이 이미 가득 찼습니다!");
                         return;
                     }
 
@@ -71,7 +71,7 @@ public class Food {
 
                 } catch (Exception e) {
                     Ui.println();
-                    Ui.println(menuItem + " is not an option.");
+                    Ui.println(menuItem + " 은(는) 유효하지 않은 선택입니다.");
                 }
             }
         }
@@ -103,8 +103,8 @@ public class Food {
     public void eat() {
         Ui.cls();
 
-        Ui.println("You have ate a " + getName());
-        Ui.println("You've gained " + effectLevel + " " + statusEffect.toString() + " points.");
+        Ui.println(getName() + "을(를) 먹었습니다!");
+        Ui.println(effectLevel + " 포인트 회복!");
         this.quantity--;
         totalEaten++;
         Ui.pause();
@@ -137,9 +137,9 @@ public class Food {
             Ui.print(" ");//Set correct spacing to get name in middle of box
         Ui.println(this.getName());
         Ui.println(this.desc);
-        Ui.println("Category: " + this.foodType.toString());
-        Ui.println("Status effect type: " + this.statusEffect.toString());
-        Ui.println("Status effect level: " + this.getEffectLevel());
+        Ui.println("종류:     " + this.foodType.toString());
+        Ui.println("효과 유형: " + this.statusEffect.toString());
+        Ui.println("효과 수치: " + this.getEffectLevel());
         for (int i = 0; i < BORDER_LENGTH; i++) Ui.print("-");//draw line
         Ui.pause();
         Ui.cls();
