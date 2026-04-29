@@ -18,12 +18,12 @@ public class Cheats {
 
         //Makes sure cheats aren't locked
         if (locked()) {
-            Ui.msg("치트가 잠겨 있습니다. 치트를 사용할 수 없습니다!");
+            Ui.msg("Cheats are locked off- You cannot use cheats!");
             return;
         }
 
         if (!enabled()) {
-            int confirm = Ui.confirmPopup("치트를 활성화하면 업적과 경험치가 비활성화됩니다. 계속하시겠습니까?", "경고");
+            int confirm = Ui.confirmPopup("If you enable cheats, achievements and xp will be disabled. Are you sure you want to continue?", "Warning");
             if (confirm == 0) {
                 Xp.setAll(0, 0, 10);
                 enable();

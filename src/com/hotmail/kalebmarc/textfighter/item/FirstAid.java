@@ -34,21 +34,21 @@ public class FirstAid {
 
         if (get() <= 0) {
 
-            Ui.println("------------------------------------------------------------");
-            Ui.println("  응급 치료 키트가 없습니다!");
-            Ui.println("  상점에서 구매하세요.");
-            Ui.println("------------------------------------------------------------");
+            Ui.println("----------------------------------------------------");
+            Ui.println("You have no First-Aid kits left!");
+            Ui.println("Go to the shop to buy some more.");
+            Ui.println("----------------------------------------------------");
             Ui.pause();
 
         } else if (Health.get() == 100) {
 
-            Ui.println("------------------------------------------------------------");
-            Ui.println("  이미 체력이 가득 찼습니다!");
-            Ui.println("  응급 치료 키트가 필요하지 않습니다!");
-            Ui.println("------------------------------------------------------------");
-            Ui.println("  내 체력: " + Health.getStr());
-            Ui.println("  응급 키트: " + get() + "개");
-            Ui.println("------------------------------------------------------------");
+            Ui.println("----------------------------------------------------");
+            Ui.println("You already have full health!");
+            Ui.println("You don't need a First-Aid kit!");
+            Ui.println("----------------------------------------------------");
+            Ui.println("Your health: " + Health.getStr());
+            Ui.println("First-Aid kits: " + get());
+            Ui.println("----------------------------------------------------");
             Ui.pause();
 
         } else {
@@ -57,13 +57,13 @@ public class FirstAid {
             Health.gain(20);
             used++;
 
-            Ui.println("------------------------------------------------------------");
-            Ui.println("  응급 치료 키트를 사용했습니다.");
-            Ui.println("  체력 20 회복!");
-            Ui.println("------------------------------------------------------------");
-            Ui.println("  내 체력: " + Health.getStr());
-            Ui.println("  응급 키트: " + get() + "개");
-            Ui.println("------------------------------------------------------------");
+            Ui.println("----------------------------------------------------");
+            Ui.println("You have used a First-Aid kit.");
+            Ui.println("You've gained 20 health.");
+            Ui.println("----------------------------------------------------");
+            Ui.println("Your health: " + Health.getStr());
+            Ui.println("First-Aid kits: " + get());
+            Ui.println("----------------------------------------------------");
             Ui.pause();
 
         }
@@ -72,16 +72,16 @@ public class FirstAid {
 
     public static void buy() {
         if (Xp.getLevel() < level) {
-            Ui.println("구매하려면 최소 레벨 " + level + " 이 필요합니다!");
+            Ui.println("You have to be at least level " + level + " to buy this!");
             Ui.pause();
         } else if (price <= Coins.get()) {
             Coins.set(-price, true);
             Stats.coinsSpentOnHealth += price;
             set(1, true);
-            Ui.println("구매해 주셔서 감사합니다!");
+            Ui.println("Thank you for your purchase. Come again soon! ");
             Ui.pause();
         } else {
-            Ui.println("코인이 부족합니다.");
+            Ui.println("You do not have enough coins.");
             Ui.pause();
         }
     }

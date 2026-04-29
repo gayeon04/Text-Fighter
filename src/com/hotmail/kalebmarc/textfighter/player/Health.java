@@ -61,7 +61,7 @@ public class Health {
     public static void die() {
         float randomCoinLoss = ThreadLocalRandom.current().nextInt(25, 51); //random between 25% and 50%
         int coinsLost = Math.round(Coins.get() * (randomCoinLoss / 100));
-        Ui.popup("사망했습니다!\n" + coinsLost + " 코인을 잃었습니다.", "사망!", JOptionPane.WARNING_MESSAGE);
+        Ui.popup("You have died! You lost " + coinsLost + " coin(s). ", "You've died!", JOptionPane.WARNING_MESSAGE);
         Coins.set(-(coinsLost), true);
         Stats.kills = 0;
         Health.set(Health.getOutOf());
@@ -78,13 +78,13 @@ public class Health {
         damage = (int) (damage - (damage * resist));
 
         Ui.cls();
-        Ui.println("------------------------------------------------------------");
-        Ui.println("  " + Enemy.get().getName() + "에게 공격받았습니다!");
-        Ui.println("  체력 " + damage + " 감소!");
-        Ui.println("------------------------------------------------------------");
-        Ui.println("  내 체력: " + (health - damage));
-        Ui.println("  적 체력: " + Enemy.get().getHeathStr());
-        Ui.println("------------------------------------------------------------");
+        Ui.println("----------------------------------------------------");
+        Ui.println("You have been hit by a " + Enemy.get().getName() + "!");
+        Ui.println("You lost " + damage + " health.");
+        Ui.println("----------------------------------------------------");
+        Ui.println("Your health: " + (health - damage));
+        Ui.println("Enemy health: " + Enemy.get().getHeathStr());
+        Ui.println("----------------------------------------------------");
         Ui.pause();
         Health.lose(damage);
 
@@ -127,7 +127,7 @@ public class Health {
 
             //Make sure player didn't already upgrade fully
             if (Health.getOutOf() == 200) {
-                Ui.msg("체력이 최대 레벨까지 업그레이드되었습니다.");
+                Ui.msg("You have upgraded your health to the maximum level");
                 return;
             }
 
@@ -140,17 +140,17 @@ public class Health {
             }
 
             Ui.cls();
-            Ui.println("============================================================");
-            Ui.println("  [ 체력 업그레이드 ]");
-            Ui.println("============================================================");
-            Ui.println("  최대 체력을 200까지 올릴 수 있습니다.");
-            Ui.println("  1회 업그레이드당 10 HP 증가, " + UPGRADE_PRICE + " 코인 소모.");
-            Ui.println("------------------------------------------------------------");
-            Ui.println("  현재 체력: " + getStr());
-            Ui.println("------------------------------------------------------------");
-            Ui.println("  1) " + health + " HP로 업그레이드");
-            Ui.println("  2) 뒤로");
-            Ui.println("============================================================");
+            Ui.println("-----------------------------------------------------------");
+            Ui.println("                           Upgrade Health                     ");
+            Ui.println("You can increase your max health up to 200. ");
+            Ui.println("You'll be able to upgrade 10HP at a time, and");
+            Ui.println("each upgrade will cost " + UPGRADE_PRICE + " coins.");
+            Ui.println();
+            Ui.println("Current Health: " + getStr());
+            Ui.println();
+            Ui.println("1) Upgrade to " + health + " health.");
+            Ui.println("2) Go back");
+            Ui.println("-----------------------------------------------------------");
 
             if (Ui.getValidInt() == 1) {
 
@@ -162,21 +162,28 @@ public class Health {
 
                     //Make sure user doesn't already have full health
                     if (getLevel() == 10) {
-                        Ui.msg("이미 최대 체력입니다!");
+                        Ui.msg("You already have max health!");
                     }
 
                     //Upgrade health
                     Health.set(health, health);
                     Coins.set(-UPGRADE_PRICE, true);
 
-                    Ui.msg("체력이 업그레이드되었습니다!");
+                    Ui.msg("You upgraded your health.");
 
                 } else {
+                /*
+                 * Cannot upgrade, make sure you are at least level [level], and you have at least [coins] coins.
+				 *
+				 * Coins: [coins]
+				 * Level: [level]
+				 */
                     Ui.cls();
-                    Ui.println("업그레이드 불가! 최소 " + level + " 레벨, " + UPGRADE_PRICE + " 코인이 필요합니다.");
+                    Ui.println("Cannot upgrade, make sure you are at least");
+                    Ui.println("level " + level + ", and you have at least " + UPGRADE_PRICE + " coins.");
                     Ui.println();
-                    Ui.println("현재 레벨: " + Xp.getLevel());
-                    Ui.println("현재 코인: " + Coins.get());
+                    Ui.println("Level: " + Xp.getLevel());
+                    Ui.println("Coins: " + Coins.get());
                     Ui.pause();
                 }//if
             } else {

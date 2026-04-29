@@ -12,19 +12,20 @@ public class Loan {
     public static void menu() {
         while (true) {
             Ui.cls();
-            Ui.println("============================================================");
-            Ui.println("  [ 대출 ]");
-            Ui.println("============================================================");
-            Ui.println("  이자율:    " + (int)(INTEREST_RATE * 100) + "%");
-            Ui.println("  대출 한도: " + getMaxLoan() + " 코인");
-            Ui.println("  대출 잔액: " + currentLoan + " 코인");
-            Ui.println("------------------------------------------------------------");
-            Ui.println("  원금:    " + netDue + " 코인");
-            Ui.println("  이자:    " + (int)(netDue * INTEREST_RATE) + " 코인");
-            Ui.println("  총 납부: " + getGrossDue() + " 코인");
-            Ui.println("------------------------------------------------------------");
-            Ui.println("  1) 대출 받기   2) 대출 상환   3) 뒤로");
-            Ui.println("============================================================");
+            Ui.println("-------------------------------");
+            Ui.println("          PLAYER LOAN          ");
+            Ui.println();
+            Ui.println("Current interest rate: " + INTEREST_RATE);
+            Ui.println("Max loan amount: " + getMaxLoan());
+            Ui.println("Current loan: " + currentLoan);
+            Ui.println("-------------------------------");
+            Ui.println("Net due: " + netDue);
+            Ui.println("Interest due: " + (netDue * INTEREST_RATE));
+            Ui.println("Gross due: " + getGrossDue());
+            Ui.println("-------------------------------");
+            Ui.println("1) Get loan");
+            Ui.println("2) Pay off loan");
+            Ui.println("3) Back");
             switch (Ui.getValidInt()) {
                 case 1:
                     createLoan();
@@ -41,21 +42,22 @@ public class Loan {
     private static void createLoan() {
 
         if (hasLoan()) {
-            Ui.msg("기존 대출이 있는 동안에는 새로운 대출을 받을 수 없습니다.");
+            Ui.msg("You can not request a loan while you already have one.");
             return;
         }
 
         Ui.cls();
-        Ui.println("대출받을 금액을 입력하세요.");
-        Ui.println("최대 대출 가능 금액: " + getMaxLoan() + " 코인");
+        Ui.println("Enter the amount you would like");
+        Ui.println("to borrow.");
+        Ui.println("Your max amount allowed is " + getMaxLoan());
         int request = Ui.getValidInt();
 
         if (request > getMaxLoan()) {
-            Ui.msg("최대 대출 가능 금액은 " + getMaxLoan() + " 코인입니다!");
+            Ui.msg("Your max amount you can borrow is " + getMaxLoan() + "!");
             return;
         }
         if (request <= 0) {
-            Ui.msg("1 코인 이상 입력해야 합니다.");
+            Ui.msg("You must enter at least 1 coin.");
             return;
         }
 
@@ -64,45 +66,45 @@ public class Loan {
         currentLoan = request;
         netDue = request;
         Ui.cls();
-        Ui.println(request + " 코인을 대출받았습니다.");
-        Ui.println("대출을 완전히 상환하기 전까지는 예금할 수 없습니다.");
+        Ui.println("You have borrowed " + request + " from the bank.");
+        Ui.println("You will not be able to deposit coins into the bank until your loan is fully paid off.");
         Ui.pause();
     }
 
     private static void payLoan() {
         if (getGrossDue() == 0) {
-            Ui.println("상환할 대출이 없습니다.");
+            Ui.println("You must enter at least 1 coin.");
             Ui.pause();
             return;
         }
 
         Ui.cls();
-        Ui.println("총 납부액: " + getGrossDue() + " 코인   보유 코인: " + Coins.get());
-        Ui.println("대출을 완전히 상환하기 전까지는 예금할 수 없습니다.");
-        Ui.println("얼마를 상환하시겠습니까?");
+        Ui.println("You currently owe " + getGrossDue() + " coins, and have " + Coins.get() + " with you.");
+        Ui.println("You will not be able to deposit coins into the bank until your loan is fully paid off.");
+        Ui.println("How much would you like to pay off?");
         int amountToPay = Ui.getValidInt();
 
         Ui.cls();
         if (Coins.get() < amountToPay) {
-            Ui.println("코인이 부족합니다.");
+            Ui.println("You don't have enough coins.");
             Ui.pause();
             return;
         }
 
         if (amountToPay <= 0) {
-            Ui.println("1 코인 이상 입력해야 합니다.");
+            Ui.println("You must enter at least 1 coin.");
             Ui.pause();
             return;
         }
 
         if (amountToPay > getGrossDue()) {
-            Ui.println("총 납부액은 " + getGrossDue() + " 코인입니다. 더 작은 금액을 입력하세요.");
+            Ui.println("You only owe " + getGrossDue() + "! Enter a small amount");
             Ui.pause();
         }
         netDue = getGrossDue() - amountToPay;
         Coins.set(-amountToPay, true);
 
-        Ui.println(amountToPay + " 코인을 상환했습니다.\n남은 납부액: " + getGrossDue() + " 코인");
+        Ui.println("You have paid back " + amountToPay + " coins.\nYou now have " + getGrossDue() + " left to pay.");
         if (getGrossDue() == 0) currentLoan = 0;
         Ui.pause();
     }

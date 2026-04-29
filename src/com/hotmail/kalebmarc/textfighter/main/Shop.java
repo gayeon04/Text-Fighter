@@ -18,17 +18,21 @@ class Shop {
     public static void menu() {
         while (true) {
             Ui.cls();
-            Ui.println("============================================================");
-            Ui.println("  상점에 오신 것을 환영합니다!");
-            Ui.println("============================================================");
-            Ui.println("  코인:      " + Coins.get());
-            Ui.println("  응급 키트: " + FirstAid.get() + "개");
-            Ui.println("  포션:  생존 " + Potion.get("survival") + "개 / 회복 " + Potion.get("recovery") + "개");
-            Ui.println("============================================================");
-            Ui.println("  1) 회복 아이템   2) 무기/탄약");
-            Ui.println("  3) 방어구        4) 부동산");
-            Ui.println("  5) 경험치        6) 뒤로");
-            Ui.println("============================================================");
+            Ui.println("-------------------------------------------------------------------");
+            Ui.println("                        Welcome to the shop!                       ");
+            Ui.println();
+            Ui.println("Coins: " + Coins.get());
+            Ui.println("First-Aid kits: " + FirstAid.get());
+            Ui.println("Potions: " + (Potion.get("survival") + Potion.get("recovery")));
+            Ui.println();
+            Ui.println("-------------------------------------------------------------------");
+            Ui.println("1) Health");
+            Ui.println("2) Weapons/Ammo");
+            Ui.println("3) Body Armour");
+            Ui.println("4) Property");
+            Ui.println("5) XP");
+            Ui.println("6) Back");
+            Ui.println("-------------------------------------------------------------------");
             switch (Ui.getValidInt()) {
                 case 1:
                     health();
@@ -57,29 +61,35 @@ class Shop {
 
         while (true) {
             Ui.cls();
-            Ui.println("============================================================");
-            Ui.println("  [ 회복 아이템 ]");
+            Ui.println("-------------------------------------------------------------------");
+            Ui.println("                               Health                              ");
+            Ui.println();
             NPC.welcome("Health");
-            Ui.println("============================================================");
-            Ui.println("  코인:      " + Coins.get());
-            Ui.println("  응급 키트: " + FirstAid.get() + "개");
-            Ui.println("  포션:  생존 " + Potion.get("survival") + "개 / 회복 " + Potion.get("recovery") + "개");
-            Ui.println("  인스타 힐: " + InstaHealth.get() + "개");
-            Ui.println("------------------------------------------------------------");
-            Ui.println("  1) 응급 치료 키트");
-            Ui.println("     가격: " + FirstAid.price + " 코인   레벨: " + FirstAid.level);
             Ui.println();
-            Ui.println("  2) 생존 포션");
-            Ui.println("     가격: " + Potion.spPrice + " 코인   레벨: " + Potion.spLevel);
+            Ui.println("Coins: " + Coins.get());
+            Ui.println("First-Aid kits: " + FirstAid.get());
+            Ui.println("Potions: " + (Potion.get("survival") + Potion.get("recovery")));
+            Ui.println("Insta-Healths: " + InstaHealth.get());
             Ui.println();
-            Ui.println("  3) 회복 포션");
-            Ui.println("     가격: " + Potion.rpPrice + " 코인   레벨: " + Potion.rpLevel);
+            Ui.println("-------------------------------------------------------------------");
+            Ui.println("1) FIRST-AID KIT");
+            Ui.println("   Price - " + FirstAid.price + " coins");
+            Ui.println("   Level - " + FirstAid.level);
             Ui.println();
-            Ui.println("  4) 인스타 힐");
-            Ui.println("     가격: " + InstaHealth.price + " 코인   레벨: " + InstaHealth.level);
+            Ui.println("2) SURVIVAL POTION");
+            Ui.println("   Price - " + Potion.spPrice + " coins");
+            Ui.println("   Level - " + Potion.spLevel);
             Ui.println();
-            Ui.println("  5) 뒤로");
-            Ui.println("============================================================");
+            Ui.println("3) RECOVERY POTION");
+            Ui.println("   Price - " + Potion.rpPrice + " coins");
+            Ui.println("   Level - " + Potion.rpLevel);
+            Ui.println();
+            Ui.println("4) INSTA-HEALTH");
+            Ui.println("   Price - " + InstaHealth.price + " coins");
+            Ui.println("   Level - " + InstaHealth.level);
+            Ui.println();
+            Ui.println("5) Back");
+            Ui.println("-------------------------------------------------------------------");
             switch (Ui.getValidInt()) {
                 case 1:
                     Ui.cls();
@@ -112,29 +122,34 @@ class Shop {
     private static void weapons() {
         while (true) {
             Ui.cls();
-            Ui.println("============================================================");
-            Ui.println("  [ 무기 ]");
+            Ui.println("-------------------------------------------------------------------");
+            Ui.println("                              Weapons                              ");
+            Ui.println();
             NPC.welcome("Weapon");
-            Ui.println("============================================================");
-            Ui.println("  코인: " + Coins.get() + "   레벨: " + Xp.getLevel());
-            Ui.println("------------------------------------------------------------");
+            Ui.println();
+            Ui.println("Coins: " + Coins.get());
+            Ui.println("Level: " + Xp.getLevel());
+            Ui.println();
+            Ui.println("-------------------------------------------------------------------");
             int j = 0;
             int[] offset = new int[Weapon.getWeapons().size()];
             for (int i = 0; i < Weapon.getWeapons().size(); i++) {
                 if (Weapon.getWeapons().get(i).isBuyable()) {
-                    Ui.println("  " + (j + 1) + ") " + Weapon.getWeapons().get(i).getName());
-                    Ui.println("     가격: " + Weapon.getWeapons().get(i).price + " 코인   레벨: " + Weapon.getWeapons().get(i).level);
+                    Ui.println((j + 1) + ") " + Weapon.getWeapons().get(i).getName());
+                    Ui.println("   Price: " + Weapon.getWeapons().get(i).price);
+                    Ui.println("   Level: " + Weapon.getWeapons().get(i).level);
                     offset[j] = i - j;
                     j++;
                     Ui.println();
                 }
             }
-            Ui.println("  " + (j + 1) + ") POWER");
-            Ui.println("     가격: " + Power.price + " 코인   레벨: " + Power.level);
+            Ui.println((j + 1) + ") POWER");
+            Ui.println("   Price: " + Power.price);
+            Ui.println("   Level: " + Power.level);
             Ui.println();
-            Ui.println("  " + (j + 2) + ") 탄약 구매");
+            Ui.println((j + 2) + ") AMMO");
             Ui.println();
-            Ui.println("  " + (j + 3) + ") 뒤로");
+            Ui.println((j + 3) + ") Back");
 
             while (true) {//Make it easy to break, without going back to main store menu
 
@@ -160,7 +175,7 @@ class Shop {
 
                 } catch (Exception e) {
                     Ui.println();
-                    Ui.println(menuItem + " 은(는) 유효하지 않은 선택입니다.");
+                    Ui.println(menuItem + " is not an option.");
                 }
             }
         }
@@ -175,21 +190,23 @@ class Shop {
 
             //Makes sure player isn't level 10 already
             if (Xp.getLevel() == 100) {
-                Ui.msg("이미 최고 레벨(100)입니다! 경험치를 더 구매할 수 없습니다.");
+                Ui.msg("You're already level 100! You cannot buy any more xp.");
                 return;
             }
 
             Ui.cls();
-            Ui.println("============================================================");
-            Ui.println("  [ 경험치 ]");
+            Ui.println("-------------------------------------------------------------------");
+            Ui.println("                                 XP                                ");
+            Ui.println();
             NPC.welcome("XP");
-            Ui.println("============================================================");
-            Ui.println("  레벨: " + Xp.getLevel() + "   경험치: " + Xp.getFull());
-            Ui.println("  코인: " + Coins.get());
-            Ui.println("------------------------------------------------------------");
-            Ui.println("  경험치 1당 코인 1개입니다. 얼마나 구매하시겠습니까?");
-            Ui.println("  (0을 입력하면 뒤로 돌아갑니다)");
-            Ui.println("============================================================");
+            Ui.println();
+            Ui.println("Level: " + Xp.getLevel());
+            Ui.println("XP: " + Xp.getFull());
+            Ui.println("Coins: " + Coins.get());
+            Ui.println();
+            Ui.println("You can buy XP for 1 coin per XP. How much would you like to buy?");
+            Ui.println("**Enter 0 to go back**");
+            Ui.println("-------------------------------------------------------------------");
 
             int buy = Ui.getValidInt();
             valid = true;
@@ -197,15 +214,15 @@ class Shop {
             //Tests
             if (buy > Coins.get()) {
                 //Not enough coins
-                Ui.msg("코인이 부족합니다.");
+                Ui.msg("You don't have enough coins to buy this much xp.");
                 valid = false;
             }
             if (Xp.getLevel() == 100) {
-                Ui.msg("이미 최고 레벨(100)입니다.");
+                Ui.msg("You are already level 100; which is the maximum level.");
                 valid = false;
             }
             if (buy < 0) {
-                Ui.msg("음수 경험치는 구매할 수 없습니다. 영리한 시도네요 ;)");
+                Ui.msg("You can't buy a negative amount of Xp.. Nice try though ;)");
                 valid = false;
             }
             if (buy == 0) {
@@ -213,7 +230,7 @@ class Shop {
             }
 
             if (valid) {
-                Ui.msg("경험치 " + buy + "을(를) 구매했습니다.");
+                Ui.msg("You have bought " + buy + " xp.");
 
                 //Results
                 Xp.set(buy, true);
@@ -230,20 +247,23 @@ class Shop {
 
         while (true) {
             Ui.cls();
-            Ui.println("============================================================");
-            Ui.println("  [ 탄약 구매 ]");
-            Ui.println("============================================================");
-            Ui.println("  코인: " + Coins.get() + "   레벨: " + Xp.getLevel());
-            Ui.println("------------------------------------------------------------");
+            Ui.println("-------------------------------------------------------------------");
+            Ui.println("                                Ammo                               ");
+            Ui.println();
+            Ui.println("Coins: " + Coins.get());
+            Ui.println("Level: " + Xp.getLevel());
+            Ui.println();
+            Ui.println("-------------------------------------------------------------------");
             ArrayList<Weapon> validWeapons = new ArrayList<Weapon>();
             for (int i = 0; i < Weapon.getWeapons().size(); i++) {
                 if (Weapon.getWeapons().get(i).isBuyable() && !Weapon.getWeapons().get(i).melee && Weapon.getWeapons().get(i).owns()) {
-                    Ui.println("  " + (validWeapons.size() + 1) + ") " + Weapon.getWeapons().get(i).getName());
-                    Ui.println("     가격: " + Weapon.getWeapons().get(i).getAmmoPrice() + " 코인/발   레벨: " + Weapon.getWeapons().get(i).level);
+                    Ui.println((validWeapons.size() + 1) + ") " + Weapon.getWeapons().get(i).getName());
+                    Ui.println("   Price: " + Weapon.getWeapons().get(i).getAmmoPrice());
+                    Ui.println("   Level: " + Weapon.getWeapons().get(i).level);
                     validWeapons.add(Weapon.getWeapons().get(i));
                 }
             }
-            Ui.println("  " + (validWeapons.size() + 1) + ") 뒤로");
+            Ui.println((validWeapons.size() + 1) + ") Back");
 
             while (true) {//Make it easy to break, without going back to main store menu
 
@@ -260,7 +280,7 @@ class Shop {
                         return;
                     }
                     Ui.println();
-                    Ui.println(menuItem + " 은(는) 유효하지 않은 선택입니다.");
+                    Ui.println(menuItem + " is not an option.");
                     Ui.pause();
                     Ui.cls();
                 }
@@ -271,11 +291,12 @@ class Shop {
         while (true){
 
             Ui.cls();
-            Ui.println("============================================================");
-            Ui.println("  [ 부동산 ]");
+            Ui.println("________________________________________________");
+            Ui.println("                    Property                    ");
             NPC.welcome("property");
-            Ui.println("  레벨: " + Xp.getLevel() + "   코인: " + Coins.get());
-            Ui.println("============================================================");
+            Ui.println("Level: " + Xp.getLevel());
+            Ui.println("Coins: " + Coins.get());
+            Ui.println("________________________________________________");
 
             //TODO do stuff to buy property
             Ui.pause();//temp
@@ -287,24 +308,28 @@ class Shop {
     private static void armour() {
         while (true) {
             Ui.cls();
-            Ui.println("============================================================");
-            Ui.println("  [ 방어구 ]");
+            Ui.println("-------------------------------------------------------------------");
+            Ui.println("                            Body Armour                            ");
+            Ui.println();
             NPC.welcome("Armour");
-            Ui.println("============================================================");
-            Ui.println("  코인: " + Coins.get() + "   레벨: " + Xp.getLevel());
-            Ui.println("------------------------------------------------------------");
+            Ui.println();
+            Ui.println("Coins: " + Coins.get());
+            Ui.println("Level: " + Xp.getLevel());
+            Ui.println();
+            Ui.println("-------------------------------------------------------------------");
             int j = 0;
             int[] armourShopOffset = new int[Armour.getArmours().size()];
             for (int i = 0; i < Armour.getArmours().size(); i++) {
                 if (Armour.getArmours().get(i).getPrice() != 0) {
-                    Ui.println("  " + (j + 1) + ") " + Armour.getArmours().get(i).getName());
-                    Ui.println("     가격: " + Armour.getArmours().get(i).getPrice() + " 코인   레벨: " + Armour.getArmours().get(i).getLevel());
+                    Ui.println((j + 1) + ") " + Armour.getArmours().get(i).getName());
+                    Ui.println("   Price: " + Armour.getArmours().get(i).getPrice());
+                    Ui.println("   Level: " + Armour.getArmours().get(i).getLevel());
                     armourShopOffset[j] = i - j;
                     j++;
                     Ui.println();
                 }
             }
-            Ui.println("  " + (j + 1) + ") 뒤로");
+            Ui.println((j + 1) + ") Back");
 
             while (true) {
 
@@ -326,7 +351,7 @@ class Shop {
 
                 } catch (Exception e) {
                     Ui.println();
-                    Ui.println(menuItem + " 은(는) 유효하지 않은 선택입니다.");
+                    Ui.println(menuItem + " is not an option.");
                 }
             }
         }

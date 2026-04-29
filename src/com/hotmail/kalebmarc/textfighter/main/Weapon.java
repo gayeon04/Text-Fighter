@@ -117,12 +117,12 @@ public class Weapon implements Comparable<Weapon> {
     public static void choose() {
         while (true) {
             Ui.cls();
-            Ui.println("============================================================");
-            Ui.println("  무기 장착");
+            Ui.println("----------------------------");
+            Ui.println("Equip new weapon");
             Ui.println();
-            Ui.println("  탄약:      " + current.getAmmo() + "발");
-            Ui.println("  현재 무기: " + current.getName());
-            Ui.println("============================================================");
+            Ui.println("Ammo: " + current.getAmmo());
+            Ui.println("Equipped weapon: " + current.getName());
+            Ui.println("----------------------------");
             int j = 0;
             int[] offset = new int[getWeapons().size()];
             for (int i = 0; i < getWeapons().size(); i++) {
@@ -150,30 +150,30 @@ public class Weapon implements Comparable<Weapon> {
 
                     //Testing to make sure the option is valid goes here:
                     if (!getWeapons().get(menuItem).owns) {
-                        Ui.msg("해당 무기를 보유하고 있지 않습니다!");
+                        Ui.msg("You do not own this weapon!");
                         return;
                     }
 
                     current = getWeapons().get(menuItem);
-                    Ui.msg(getWeapons().get(menuItem).getName() + "을(를) 장착했습니다!");
+                    Ui.msg("You have equipped a " + getWeapons().get(menuItem).getName());
                     return;
 
                 } catch (Exception e) {
                     Ui.println();
-                    Ui.println(menuItem + " 은(는) 유효하지 않은 선택입니다.");
+                    Ui.println(menuItem + " is not an option.");
                 }
             }
         }
     }
 
     private static void noAmmo() {
-        Ui.popup("탄약이 떨어졌습니다!", "경고", JOptionPane.WARNING_MESSAGE);
+        Ui.popup("You've run out of ammo!", "Warning", JOptionPane.WARNING_MESSAGE);
         Weapon.current = Weapon.starting;
     }
 
     public static void displayAmmo() {
         if (!(Weapon.get().melee)) {
-            Ui.println("  탄약:      " + Weapon.get().getAmmo() + "발");
+            Ui.println("     Ammo: " + Weapon.get().getAmmo());
         }
     }
 
@@ -250,13 +250,13 @@ public class Weapon implements Comparable<Weapon> {
         com.hotmail.kalebmarc.textfighter.player.Xp.setBattleXp(damageDealt, true);
         if(!Enemy.get().takeDamage(damageDealt)) { // !dead
             Ui.cls();
-            Ui.println("------------------------------------------------------------");
-            Ui.println("  " + Enemy.get().getName() + "을(를) 공격했습니다!");
-            Ui.println("  " + this.name + "으로 " + damageDealt + " 데미지!");
-            Ui.println("------------------------------------------------------------");
-            Ui.println("  내 체력: " + com.hotmail.kalebmarc.textfighter.player.Health.getStr());
-            Ui.println("  적 체력: " + Enemy.get().getHeathStr());
-            Ui.println("------------------------------------------------------------");
+            Ui.println("----------------------------------------------------");
+            Ui.println("You have attacked a " + Enemy.get().getName() + "!");
+            Ui.println("You dealt " + damageDealt + " damage with a " + this.name);
+            Ui.println("----------------------------------------------------");
+            Ui.println("Your health: " + com.hotmail.kalebmarc.textfighter.player.Health.getStr());
+            Ui.println("Enemy health: " + Enemy.get().getHeathStr());
+            Ui.println("----------------------------------------------------");
             Ui.pause();
 
             if (Enemy.get().getHealth() <= Enemy.get().getHealthMax() / 3){
@@ -274,10 +274,10 @@ public class Weapon implements Comparable<Weapon> {
             damageDealt *= critMultiplier;
 
             Ui.cls();
-            Ui.println("------------------------------------------------------------");
-            Ui.println("  ★ 크리티컬 히트!");
-            Ui.println("  " + critMultiplier + "배 데미지를 입혔습니다!");
-            Ui.println("------------------------------------------------------------");
+            Ui.println("----------------------------------------------------");
+            Ui.println("Critical Hit!");
+            Ui.println("You dealt " + critMultiplier + "x normal damage.");
+            Ui.println("----------------------------------------------------");
             Ui.pause();
 
         }
@@ -290,10 +290,10 @@ public class Weapon implements Comparable<Weapon> {
             damageDealt *= Weapon.BULLET_CRITICAL_MULTIPLIER;
 
             Ui.cls();
-            Ui.println("------------------------------------------------------------");
-            Ui.println("  ★ 크리티컬 총알 히트!");
-            Ui.println("  총알이 " + Weapon.BULLET_CRITICAL_MULTIPLIER + "배 데미지를 입혔습니다!");
-            Ui.println("------------------------------------------------------------");
+            Ui.println("----------------------------------------------------");
+            Ui.println("Critical Bullet Hit!");
+            Ui.println("Your bullets dealt " + Weapon.BULLET_CRITICAL_MULTIPLIER + "x normal damage.");
+            Ui.println("----------------------------------------------------");
             Ui.pause();
 
         }
@@ -318,15 +318,15 @@ public class Weapon implements Comparable<Weapon> {
         for (int i = 0; i < ((BORDER_LENGTH / 2) - (this.getName().length() / 2)); i++)
             Ui.print(" ");//Set correct spacing to get name in middle of box
         Ui.println(this.getName());
-        Ui.println("가격:          " + this.price + " 코인");
-        Ui.println("빗나갈 확률:   " + this.chanceOfMissing + "%");
-        Ui.println("탄약 소모:     " + this.ammoUsed);
-        Ui.println("데미지:        " + this.getDamage());
-        Ui.println("크리티컬 확률: " + this.critChanceMultiplier + "%");
-        Ui.println("크리티컬 배율: " + this.critDamMultiplierMin + "~" + this.critDamMultiplierMax + "x");
+        Ui.println("Price: " + this.price + " coins");
+        Ui.println("Chance of missing: " + this.chanceOfMissing + "%");
+        Ui.println("Ammo Used: " + this.ammoUsed);
+        Ui.println("Damage: " + this.getDamage());
+        Ui.println("Chance of critical hit: " + this.critChanceMultiplier + "%");
+        Ui.println("Critical hit damage multiplier: " + this.critDamMultiplierMin + "-" + this.critDamMultiplierMax + "x");
         if (!this.melee) {
-            Ui.println("총알 크리티컬 확률: " + Weapon.BULLET_CRITICAL_CHANCE + "%");
-            Ui.println("총알 크리티컬 배율: " + Weapon.BULLET_CRITICAL_MULTIPLIER + "x");
+            Ui.println("Chance of critical hit, bullet: " + Weapon.BULLET_CRITICAL_CHANCE + "%");
+            Ui.println("Bullet Critical of critical hit, bullet: " + Weapon.BULLET_CRITICAL_MULTIPLIER + "x");
         }
         for (int i = 0; i < BORDER_LENGTH; i++) Ui.print("-");//Make line
         Ui.pause();
@@ -352,19 +352,19 @@ public class Weapon implements Comparable<Weapon> {
 
     public void buy() {
         if (!isBuyable()) {
-            Ui.msg("죄송합니다, 이 아이템은 현재 재고가 없습니다.");
+            Ui.msg("Sorry, this item is no longer in stock.");
             return;
         }
         if (this.owns()) {
-            Ui.msg("이미 보유하고 있는 무기입니다.");
+            Ui.msg("You already own this weapon.");
             return;
         }
         if (level > Xp.getLevel()) {
-            Ui.msg("이 아이템을 구매하기 위한 레벨이 부족합니다.");
+            Ui.msg("You are not a high enough level to buy this item.");
             return;
         }
         if (price > Coins.get()) {
-            Ui.msg("코인이 부족합니다.");
+            Ui.msg("You do not have enough coins to buy this item.");
             return;
         }
 
@@ -374,8 +374,8 @@ public class Weapon implements Comparable<Weapon> {
         Stats.coinsSpentOnWeapons += price;
         this.owns = true;
         current = this;
-        Ui.println(this.getName() + "을(를) " + this.price + " 코인에 구매했습니다.");
-        Ui.println("코인: " + Coins.get());
+        Ui.println("You have bought a " + this.getName() + " for " + this.price + " coins.");
+        Ui.println("Coins: " + Coins.get());
         Ui.pause();
 
         //Give ammo
@@ -389,21 +389,21 @@ public class Weapon implements Comparable<Weapon> {
 
         //Make sure player is a high enough level
         if (Xp.getLevel() < this.level) {
-            Ui.println("레벨이 부족합니다. 최소 " + this.level + " 레벨이 필요합니다.");
+            Ui.println("You are not a high enough level. You need to be at least level " + this.level + ".");
             Ui.pause();
             return;
         }
 
         //Get amount of ammo user wants
-        Ui.println("탄약을 몇 개 구매하시겠습니까?");
-        Ui.println("탄약 1개당 " + this.ammoPrice + " 코인입니다.");
-        Ui.println("현재 코인: " + Coins.get());
+        Ui.println("How much ammo would you like to buy?");
+        Ui.println("1 ammo cost " + this.ammoPrice + " coins.");
+        Ui.println("You have " + Coins.get() + " coins.");
         int ammoToBuy = Ui.getValidInt();
         int cost = ammoToBuy * ammoPrice;
 
         //Make sure player has enough coins
         if (Coins.get() < (cost)) {
-            Ui.println("코인이 부족합니다. " + (cost - Coins.get()) + " 코인이 더 필요합니다.");
+            Ui.println("You don't have enough coins. You need " + (cost - Coins.get()) + " more coins.");
             Ui.pause();
             return;
         }
@@ -412,7 +412,7 @@ public class Weapon implements Comparable<Weapon> {
         Coins.set(-cost, true);
         Stats.coinsSpentOnWeapons += cost;
 
-        Ui.println("탄약 " + ammoToBuy + "개를 구매했습니다.");
+        Ui.println("You have bought " + ammoToBuy + " ammo.");
         Ui.pause();
     }
 

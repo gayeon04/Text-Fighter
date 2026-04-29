@@ -69,12 +69,13 @@ public class NPC {
     }
 
     public static void welcome(String type) {
-        Ui.println(getName(type) + ": 어서오세요! 무엇을 도와드릴까요?");
+        Ui.println(getName(type) + ": \n\tWelcome to the " + type + " shop.");
+        Ui.println("\tHow can I help you today?");
     }
 
     public static void gratitude(String shop, String type) {
         if (type.toLowerCase().equals("purchase")) {
-            Ui.println(getName(shop) + ": 구매해 주셔서 감사합니다!");
+            Ui.println(getName(shop) + ": \nThank you for your purchase.");
         }
 
     }

@@ -95,12 +95,12 @@ public class Game {
 	public static Armour advanced = new Armour("Advanced", 750, 30, 7);
 
 	// Food (기존 유지)
-	public static Food apple       = new Food("사과",       "평범한 사과.",                    StatusEffect.type.HEALTH, Food.type.FRUIT,      5);
-	public static Food orange      = new Food("오렌지",     "사과 같지만 오렌지색.",            StatusEffect.type.HEALTH, Food.type.FRUIT,      5);
-	public static Food dragonfruit = new Food("용과",       "아쉽게도 진짜 용은 아님.",         StatusEffect.type.HEALTH, Food.type.FRUIT,      10);
-	public static Food meat        = new Food("고기 덩어리", "아마도 상하지 않았을 것.",         StatusEffect.type.HEALTH, Food.type.MEAT_OTHER, 15);
-	public static Food mushroom    = new Food("버섯",       "좋은 종류의 버섯!",               StatusEffect.type.HEALTH, Food.type.OTHER,      5);
-	public static Food fish        = new Food("물고기",     "강과 호수에서 잡은 신선한 생선.", StatusEffect.type.HEALTH, Food.type.MEAT_FISH,  15);
+	public static Food apple       = new Food("Apple",         "A boring 'ol apple.",                StatusEffect.type.HEALTH, Food.type.FRUIT,      5);
+	public static Food orange      = new Food("Orange",        "Sort of like an apple, but orange.", StatusEffect.type.HEALTH, Food.type.FRUIT,      5);
+	public static Food dragonfruit = new Food("Dragon Fruit",  "Unfortunately, not a real dragon.",  StatusEffect.type.HEALTH, Food.type.FRUIT,      10);
+	public static Food meat        = new Food("Chunk of meat", "Probably not rotten.",               StatusEffect.type.HEALTH, Food.type.MEAT_OTHER, 15);
+	public static Food mushroom    = new Food("Mushroom",      "The good kind!",                     StatusEffect.type.HEALTH, Food.type.OTHER,      5);
+	public static Food fish        = new Food("Fish",          "Found in rivers and lakes.",         StatusEffect.type.HEALTH, Food.type.MEAT_FISH,  15);
 
 	// 신규 시스템
 	private static BattleManager battleManager;
@@ -133,8 +133,8 @@ public class Game {
 
 		GameUtils.showPopup(Constants.HEADER,
 				Constants.SUB_HEADER,
-				asList("저장 파일에서 게임을 불러오시겠습니까?"),
-				asList("메인으로 돌아가기", "예", "아니오")
+				asList("Do you want to load your game", "from save file?"),
+				asList("Exit to Main", "Yes", "No")
 		);
 
 		int choice = Ui.getValidInt();
@@ -182,38 +182,44 @@ public class Game {
 
 			Ui.cls();
 
-			Ui.println("============================================================");
-			Ui.println("  텍스트 파이터 " + Version.getFull());
-			Ui.println("============================================================");
-			if (Cheats.enabled()) Ui.println("  [!] 치트 활성화됨");
-			Ui.print(Settings.godModeMsg());
-			Ui.println("  [ 점수 ]");
-			Ui.println("  레벨: " + Xp.getLevel() + "   " + Xp.getFull());
-			Ui.println("  연속 처치: " + Stats.kills + "   최고 기록: " + Stats.highScore);
-			Ui.println("------------------------------------------------------------");
-			Ui.println("  [ 플레이어: " + User.name() + " ]");
-			Ui.println("  체력:      " + getStr());
-			Ui.println("  코인:      " + Coins.get());
-			Ui.println("  응급 키트: " + FirstAid.get() + "개");
-			Ui.println("  포션:  생존 " + Potion.get("survival") + "개 / 회복 " + Potion.get("recovery") + "개");
-			Ui.println("  방어구:    " + Armour.getEquipped().toString());
-			Ui.println("  무기:      " + Weapon.get().getName());
+			Ui.println("Text-Fighter " + Version.getFull());
+			Ui.println("------------------------------------------------------------------");
+			if (Cheats.enabled()) Ui.println("CHEATS ACTIVATED");
+			Ui.println(Settings.godModeMsg());
+			Ui.println("--Score Info--");
+			Ui.println("     Level " + Xp.getLevel() + "      " + Xp.getFull());
+			Ui.println("     Kill Streak: " + Stats.kills);
+			Ui.println("     Highest Kill Streak: " + Stats.highScore);
+			Ui.println("--" + User.name() + "--");
+			Ui.println("     Health: " + getStr());
+			Ui.println("     Coins: " + Coins.get());
+			Ui.println("     First-Aid kits: " + FirstAid.get());
+			Ui.println("     Potions: ");
+			Ui.println("          Survival: " + Potion.get("survival"));
+			Ui.println("          Recovery: " + Potion.get("recovery"));
+			Ui.println("     Equipped armour: " + Armour.getEquipped().toString());
+			Ui.println("     Equipped Weapon: " + Weapon.get().getName());
 			GameClock.updateGameTime();
-			Ui.println("------------------------------------------------------------");
-			Ui.println("  [ 시간 ]");
-			Ui.println("  날짜: " + GameClock.getGameDate() + "   시각: " + GameClock.getGameTime());
+			Ui.println("--Time--");
+			Ui.println("     Date: " + GameClock.getGameDate());
+			Ui.println("     Clock: " + GameClock.getGameTime());
 			Weapon.displayAmmo();
-			Ui.println("------------------------------------------------------------");
-			Ui.println("  [ 적 정보 ]");
-			Ui.println("  이름:      " + Enemy.get().getName());
-			Ui.println("  체력:      " + Enemy.get().getHeathStr());
-			Ui.println("  응급 키트: " + Enemy.get().getFirstAidKit() + "개");
-			Ui.println("============================================================");
-			Ui.println("  1) 전투           2) 집으로        3) 마을로");
-			Ui.println("  4) 응급 치료 키트  5) 포션 사용    6) 음식 먹기");
-			Ui.println("  7) 인스타 힐      8) POWER        9) 도망치기");
-			Ui.println(" 10) 게임 종료 (자동 저장)");
-			Ui.println("============================================================");
+			Ui.println("--Enemy Info--");
+			Ui.println("     Enemy: " + Enemy.get().getName());
+			Ui.println("     Enemy Health: " + Enemy.get().getHeathStr());
+			Ui.println("     Enemy's First Aid Kit's: " + Enemy.get().getFirstAidKit());
+			Ui.println("------------------------------------------------------------------");
+			Ui.println("1) 전투");
+			Ui.println("2) 집으로");
+			Ui.println("3) 마을로");
+			Ui.println("4) 응급 치료 키트 사용");
+			Ui.println("5) 포션 사용");
+			Ui.println("6) 음식 먹기");
+			Ui.println("7) 인스타 힐 사용");
+			Ui.println("8) POWER 사용");
+			Ui.println("9) 도망치기 (획득 XP 소멸)");
+			Ui.println("10) 게임 종료 (자동 저장)");
+			Ui.println("------------------------------------------------------------------");
 
 			switch (Ui.getValidInt()) {
 
@@ -240,13 +246,13 @@ public class Game {
 							battleRecord.record(BattleRecord.EventType.ATTACK, damage, Weapon.get().getName());
 						}
 
-						Ui.println("------------------------------------------------------------");
-						Ui.println("  " + Enemy.get().getName() + "을(를) 공격했습니다!");
-						Ui.println("  " + Weapon.get().getName() + "으로 " + damage + " 데미지!");
-						Ui.println("------------------------------------------------------------");
-						Ui.println("  내 체력: " + getStr());
-						Ui.println("  적 체력: " + Enemy.get().getHeathStr());
-						Ui.println("------------------------------------------------------------");
+						Ui.println("----------------------------------------------------");
+						Ui.println(Enemy.get().getName() + "을(를) 공격했습니다!");
+						Ui.println(Weapon.get().getName() + "으로 " + damage + " 데미지!");
+						Ui.println("----------------------------------------------------");
+						Ui.println("내 체력: " + getStr());
+						Ui.println("적 체력: " + Enemy.get().getHeathStr());
+						Ui.println("----------------------------------------------------");
 
 						if (killed) {
 							// Observer Pattern: 처치 이벤트 발행 → 퀘스트 자동 처리
@@ -265,13 +271,13 @@ public class Game {
 						Health.takeDamage(enemyDmg);
 						battleRecord.record(BattleRecord.EventType.HIT, enemyDmg, Enemy.get().getName());
 						logger.battle("빗나감! " + Enemy.get().getName() + " 반격 → " + enemyDmg + " 피해");
-						Ui.println("------------------------------------------------------------");
-						Ui.println("  공격이 빗나갔습니다!");
-						Ui.println("  " + Enemy.get().getName() + "의 반격 → " + enemyDmg + " 피해!");
-						Ui.println("------------------------------------------------------------");
-						Ui.println("  내 체력: " + getStr());
-						Ui.println("  적 체력: " + Enemy.get().getHeathStr());
-						Ui.println("------------------------------------------------------------");
+						Ui.println("----------------------------------------------------");
+						Ui.println("공격이 빗나갔습니다!");
+						Ui.println(Enemy.get().getName() + "의 반격 → " + enemyDmg + " 피해!");
+						Ui.println("----------------------------------------------------");
+						Ui.println("내 체력: " + getStr());
+						Ui.println("적 체력: " + Enemy.get().getHeathStr());
+						Ui.println("----------------------------------------------------");
 					}
 					Ui.pause();
 					break;
@@ -381,23 +387,27 @@ public class Game {
 	private static void town() {
 		while (true) {
 			Ui.cls();
-			Ui.println("============================================================");
-			Ui.println("  마을에 오신 것을 환영합니다!");
-			Ui.println("============================================================");
-			Ui.println("  [ 점수 ]");
-			Ui.println("  연속 처치: " + Stats.kills + "   최고 기록: " + Stats.highScore);
-			Ui.println("------------------------------------------------------------");
-			Ui.println("  [ 플레이어 정보 ]");
-			Ui.println("  체력:      " + getStr());
-			Ui.println("  코인:      " + Coins.get());
-			Ui.println("  응급 키트: " + FirstAid.get() + "개");
-			Ui.println("  포션:  생존 " + Potion.get("survival") + "개 / 회복 " + Potion.get("recovery") + "개");
-			Ui.println("  무기:      " + Weapon.get().getName());
-			Ui.println("============================================================");
-			Ui.println("  1) 카지노          2) 집");
-			Ui.println("  3) 은행            4) 상점");
-			Ui.println("  5) 체력 업그레이드  6) 뒤로");
-			Ui.println("============================================================");
+			Ui.println("------------------------------------------------------------------");
+			Ui.println("                        마을에 오신 것을 환영합니다                 ");
+			Ui.println("--Score Info--");
+			Ui.println("     Kill Streak: " + Stats.kills);
+			Ui.println("     Highest Kill Streak: " + Stats.highScore);
+			Ui.println("--Player Info--");
+			Ui.println("     Health: " + getStr());
+			Ui.println("     Coins: " + Coins.get());
+			Ui.println("     First-Aid kits: " + FirstAid.get());
+			Ui.println("     Potions: ");
+			Ui.println("          Survival: " + Potion.get("survival"));
+			Ui.println("          Recovery: " + Potion.get("recovery"));
+			Ui.println("     Equipped Weapon: " + Weapon.get().getName());
+			Ui.println("------------------------------------------------------------------");
+			Ui.println("1) 카지노");
+			Ui.println("2) 집");
+			Ui.println("3) 은행");
+			Ui.println("4) 상점");
+			Ui.println("5) 체력 업그레이드");
+			Ui.println("6) 뒤로");
+			Ui.println("------------------------------------------------------------------");
 
 			switch (Ui.getValidInt()) {
 				case 1: Casino.menu(); break;
@@ -414,25 +424,31 @@ public class Game {
 	private static void home() {
 		while (true) {
 			Ui.cls();
-			Ui.println("============================================================");
-			Ui.println("  집에 오신 것을 환영합니다!");
-			Ui.println("============================================================");
-			Ui.println("  [ 점수 ]");
-			Ui.println("  연속 처치: " + Stats.kills + "   최고 기록: " + Stats.highScore);
-			Ui.println("------------------------------------------------------------");
-			Ui.println("  [ 플레이어 정보 ]");
-			Ui.println("  체력:      " + getStr());
-			Ui.println("  코인:      " + Coins.get());
-			Ui.println("  응급 키트: " + FirstAid.get() + "개");
-			Ui.println("  포션:  생존 " + Potion.get("survival") + "개 / 회복 " + Potion.get("recovery") + "개");
-			Ui.println("  무기:      " + Weapon.get().getName());
-			Ui.println("============================================================");
-			Ui.println("  1) 무기 장착         2) 방어구 장착");
-			Ui.println("  3) 아이템 상자 보기   4) 업적");
-			Ui.println("  5) 통계              6) 정보");
-			Ui.println("  7) 설정              8) 도움말");
-			Ui.println("  9) 크레딧           10) 뒤로");
-			Ui.println("============================================================");
+			Ui.println("------------------------------------------------------------------");
+			Ui.println("                        집에 오신 것을 환영합니다                   ");
+			Ui.println("--Score Info--");
+			Ui.println("     Kill Streak: " + Stats.kills);
+			Ui.println("     Highest Kill Streak: " + Stats.highScore);
+			Ui.println("--Player Info--");
+			Ui.println("     Health: " + getStr());
+			Ui.println("     Coins: " + Coins.get());
+			Ui.println("     First-Aid kits: " + FirstAid.get());
+			Ui.println("     Potions: ");
+			Ui.println("          Survival: " + Potion.get("survival"));
+			Ui.println("          Recovery: " + Potion.get("recovery"));
+			Ui.println("     Equipped Weapon: " + Weapon.get().getName());
+			Ui.println("------------------------------------------------------------------");
+			Ui.println("1) 무기 장착");
+			Ui.println("2) 방어구 장착");
+			Ui.println("3) 아이템 상자 보기");
+			Ui.println("4) 업적");
+			Ui.println("5) 통계");
+			Ui.println("6) 정보");
+			Ui.println("7) 설정");
+			Ui.println("8) 도움말");
+			Ui.println("9) 크레딧");
+			Ui.println("10) 뒤로");
+			Ui.println("------------------------------------------------------------------");
 
 			switch (Ui.getValidInt()) {
 				case 1:  Weapon.choose();                                   break;

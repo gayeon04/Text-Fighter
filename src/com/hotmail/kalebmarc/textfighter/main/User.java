@@ -24,13 +24,13 @@ public class User {
 
     public static void promptNameSelection() {
         Ui.cls();
-        Ui.println("사용자 이름을 입력하세요.");
+        Ui.println("Please enter your username.");
         String name = Ui.getValidString();
 
         //Validate
         name = name.trim();
         if (name.equals("")) {
-            Ui.println("이름은 빈칸일 수 없습니다.");
+            Ui.println("Name cannot be blank.");
             promptNameSelection();
         }
 

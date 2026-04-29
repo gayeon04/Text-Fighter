@@ -10,8 +10,8 @@ class Menu {
       //Menu Screen
       GameUtils.showPopup(Constants.WELCOME_HEADER,
           Constants.SUB_HEADER,
-          asList("번호를 입력하고 엔터를 누르세요."),
-          asList("게임 시작", "게임 소개")
+          asList("To get started, Type in a number below", "and press enter."),
+          asList("Start Game", "About Game")
       );
 
       switch (Ui.getValidInt()) {
