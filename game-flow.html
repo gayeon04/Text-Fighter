@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Fighter - 게임 구조 다이어그램</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f1117;
+      color: #e0e0e0;
+      min-height: 100vh;
+    }
+    header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      padding: 24px 40px;
+      border-bottom: 2px solid #e94560;
+    }
+    header h1 { font-size: 2rem; color: #e94560; letter-spacing: 2px; }
+    header p { color: #a0a0c0; margin-top: 6px; font-size: 0.95rem; }
+
+    .tab-bar {
+      display: flex;
+      gap: 4px;
+      padding: 16px 40px 0;
+      background: #12121f;
+      border-bottom: 2px solid #1e1e3a;
+    }
+    .tab-btn {
+      padding: 10px 22px;
+      background: #1e1e3a;
+      color: #a0a0c0;
+      border: none;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover { background: #2a2a50; color: #fff; }
+    .tab-btn.active { background: #e94560; color: #fff; font-weight: 600; }
+
+    .tab-content { display: none; padding: 32px 40px; }
+    .tab-content.active { display: block; }
+
+    .section { margin-bottom: 48px; }
+    .section h2 {
+      font-size: 1.2rem;
+      color: #e94560;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #2a2a50;
+    }
+    .section p.desc {
+      color: #8080a0;
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+    }
+
+    .diagram-card {
+      background: #1a1a2e;
+      border: 1px solid #2a2a50;
+      border-radius: 12px;
+      padding: 24px;
+      overflow-x: auto;
+    }
+    .diagram-card .mermaid { min-width: 600px; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .badge-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .badge {
+      background: #0f3460;
+      color: #7ec8e3;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      border: 1px solid #1a5a8a;
+    }
+
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    .summary-table th {
+      background: #0f3460;
+      color: #7ec8e3;
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid #1a5a8a;
+    }
+    .summary-table td {
+      padding: 9px 14px;
+      border-bottom: 1px solid #1e1e3a;
+      vertical-align: top;
+    }
+    .summary-table tr:hover td { background: #1e1e3a; }
+
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 16px;
+    }
+    .ba-card {
+      background: #1a1a2e;
+      border: 1px solid #2a2a50;
+      border-radius: 10px;
+      padding: 18px;
+    }
+    .ba-card h3 { font-size: 0.95rem; margin-bottom: 10px; }
+    .ba-card.before h3 { color: #e07070; }
+    .ba-card.after h3 { color: #70e0a0; }
+    .ba-card ul { padding-left: 18px; }
+    .ba-card li { margin-bottom: 6px; font-size: 0.85rem; color: #b0b0c8; }
+
+    @media (max-width: 900px) {
+      .two-col, .before-after { grid-template-columns: 1fr; }
+      .tab-bar, .tab-content { padding-left: 16px; padding-right: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Text Fighter</h1>
+  <p>게임 구조 및 디자인 패턴 다이어그램 — 교수님 제출용 보고서</p>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab(this,'tab-flow')">게임 흐름도</button>
+  <button class="tab-btn" onclick="switchTab(this,'tab-pattern')">디자인 패턴</button>
+  <button class="tab-btn" onclick="switchTab(this,'tab-class')">클래스 구조</button>
+  <button class="tab-btn" onclick="switchTab(this,'tab-summary')">요약</button>
+</div>
+
+<!-- ==================== TAB 1: 게임 흐름도 ==================== -->
+<div id="tab-flow" class="tab-content active">
+
+  <div class="section">
+    <h2>전체 게임 흐름</h2>
+    <p class="desc">게임 시작부터 종료까지의 전체 플로우를 보여줍니다.</p>
+    <div class="diagram-card">
+      <div class="mermaid">
+flowchart TD
+    A([게임 실행]) --> B[Start: 로딩 + 초기화]
+    B --> C{저장 파일\n존재?}
+    C -->|Yes| D[불러오기 선택]
+    D -->|불러오기| E[저장 데이터 로드]
+    D -->|새 게임| F[플레이어 이름 입력]
+    C -->|No| F
+    E --> G[메인 메뉴]
+    F --> G
+
+    G --> H{메뉴 선택}
+    H -->|게임 시작| I[HUD 표시]
+    H -->|게임 소개| J[About 화면]
+    J --> G
+
+    I --> K{행동 선택}
+    K -->|전투| L[BattleManager]
+    K -->|집으로| M[집 메뉴]
+    K -->|마을로| N[마을 메뉴]
+
+    L --> L1{전투 결과}
+    L1 -->|승리| L2[코인+XP 획득]
+    L1 -->|패배| L3[체력 0: 사망]
+    L2 --> L4[업적 체크]
+    L3 --> L4
+    L4 --> I
+
+    M --> M1{집 메뉴}
+    M1 -->|아이템 사용| M2[FirstAid/InstaHealth/Potion]
+    M1 -->|통계 보기| M3[Stats 화면]
+    M1 -->|업적 보기| M4[Achievements 화면]
+    M1 -->|설정| M5[Settings 화면]
+    M1 -->|저장| M6[파일 저장]
+    M1 -->|뒤로| I
+    M2 --> I
+    M3 --> I
+    M4 --> I
+    M5 --> I
+    M6 --> I
+
+    N --> N1{마을 메뉴}
+    N1 -->|상점| N2[Shop]
+    N1 -->|은행| N3[Bank/Loan]
+    N1 -->|카지노| N4[Casino]
+    N1 -->|음식| N5[Food]
+    N1 -->|치트| N6[Cheats]
+    N1 -->|뒤로| I
+    N2 --> I
+    N3 --> I
+    N4 --> I
+    N5 --> I
+    N6 --> I
+
+    style A fill:#e94560,color:#fff
+    style L fill:#0f3460,color:#7ec8e3
+    style L1 fill:#1a1a2e,color:#e0e0e0
+    style G fill:#16213e,color:#e0e0e0
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="section">
+      <h2>집 메뉴 세부 흐름</h2>
+      <p class="desc">플레이어가 집에서 할 수 있는 행동.</p>
+      <div class="diagram-card">
+        <div class="mermaid">
+flowchart TD
+    H[집 메뉴] --> H1[아이템 사용]
+    H --> H2[통계 보기]
+    H --> H3[업적 보기]
+    H --> H4[설정]
+    H --> H5[저장 후 종료]
+    H --> H6[뒤로]
+
+    H1 --> H1a{아이템 선택}
+    H1a -->|응급 키트| FA[FirstAid: 체력+20]
+    H1a -->|인스타 힐| IH[InstaHealth: 즉시 회복]
+    H1a -->|생존 포션| SP[체력 25 회복]
+    H1a -->|회복 포션| RP[체력 50 회복]
+
+    H4 --> S1[난이도 변경]
+    H4 --> S2[갓모드 토글]
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>마을 메뉴 세부 흐름</h2>
+      <p class="desc">상점, 은행, 카지노 등 마을 시설.</p>
+      <div class="diagram-card">
+        <div class="mermaid">
+flowchart TD
+    T[마을 메뉴] --> T1[상점]
+    T --> T2[은행]
+    T --> T3[카지노]
+    T --> T4[음식]
+    T --> T5[치트]
+
+    T1 --> S1[회복 아이템]
+    T1 --> S2[무기 + 탄약]
+    T1 --> S3[방어구]
+    T1 --> S4[부동산]
+    T1 --> S5[경험치 구매]
+
+    T2 --> B1[입금 / 출금]
+    T2 --> B2[대출 신청]
+
+    T3 --> C1[주사위 게임]
+    T3 --> C2[슬롯머신]
+    T3 --> C3[블랙잭]
+    T3 --> C4[복권]
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>전투 상세 흐름</h2>
+    <p class="desc">BattleManager(Strategy 패턴)가 처리하는 전투 라운드.</p>
+    <div class="diagram-card">
+      <div class="mermaid">
+flowchart LR
+    B1([전투 시작]) --> B2[적 등장 팝업]
+    B2 --> B3[플레이어 공격]
+    B3 --> B4{탄약 있음?}
+    B4 -->|Yes| B5[데미지 계산\n크리티컬 판정]
+    B4 -->|No| B6[탄약 없음 경고]
+    B5 --> B7{적 HP 0?}
+    B6 --> B3
+    B7 -->|Yes| B8[처치!\n코인+XP+업적]
+    B7 -->|No| B9[적 반격]
+    B9 --> B10{플레이어 HP 0?}
+    B10 -->|Yes| B11[사망!\n코인 손실]
+    B10 -->|No| B3
+    B8 --> B12([전투 종료])
+    B11 --> B12
+
+    style B1 fill:#e94560,color:#fff
+    style B8 fill:#2a7a4a,color:#fff
+    style B11 fill:#7a2a2a,color:#fff
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== TAB 2: 디자인 패턴 ==================== -->
+<div id="tab-pattern" class="tab-content">
+
+  <div class="section">
+    <h2>Strategy 패턴 — BattleManager</h2>
+    <p class="desc">전투 알고리즘을 인터페이스로 분리하여 런타임에 교체 가능하도록 설계.</p>
+    <div class="diagram-card">
+      <div class="mermaid">
+classDiagram
+    class BattleStrategy {
+        &lt;&lt;interface&gt;&gt;
+        +execute() void
+    }
+    class NormalBattle {
+        +execute() void
+    }
+    class BossBattle {
+        +execute() void
+    }
+    class BattleManager {
+        -BattleStrategy strategy
+        +setStrategy(BattleStrategy) void
+        +startBattle() void
+    }
+
+    BattleStrategy <|.. NormalBattle
+    BattleStrategy <|.. BossBattle
+    BattleManager o-- BattleStrategy
+      </div>
+    </div>
+    <div class="badge-list">
+      <span class="badge">전투 알고리즘 캡슐화</span>
+      <span class="badge">런타임 전략 교체 가능</span>
+      <span class="badge">OCP 원칙 준수</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Observer 패턴 — QuestManager</h2>
+    <p class="desc">게임 이벤트(처치, 코인 획득 등) 발생 시 자동으로 퀘스트 진행도를 업데이트.</p>
+    <div class="diagram-card">
+      <div class="mermaid">
+classDiagram
+    class GameEventListener {
+        &lt;&lt;interface&gt;&gt;
+        +onEvent(String type, int value) void
+    }
+    class QuestManager {
+        -List~Quest~ quests
+        +onEvent(String type, int value) void
+        +checkQuests() void
+        +getInstance() QuestManager
+    }
+    class Quest {
+        -String type
+        -int goal
+        -int progress
+        +update(int value) void
+        +isComplete() boolean
+    }
+    class Game {
+        -List~GameEventListener~ listeners
+        +notifyListeners(String, int) void
+    }
+
+    GameEventListener <|.. QuestManager
+    QuestManager "1" *-- "many" Quest
+    Game --> GameEventListener : notify
+      </div>
+    </div>
+    <div class="badge-list">
+      <span class="badge">느슨한 결합(Loose Coupling)</span>
+      <span class="badge">이벤트 기반 업데이트</span>
+      <span class="badge">퀘스트 자동 추적</span>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="section">
+      <h2>Singleton 패턴 — GameLogger</h2>
+      <p class="desc">게임 전체에서 로그 인스턴스를 하나만 유지.</p>
+      <div class="diagram-card">
+        <div class="mermaid">
+classDiagram
+    class GameLogger {
+        -static GameLogger instance
+        -GameLogger()
+        +getInstance() GameLogger
+        +log(String message) void
+        +warn(String message) void
+        +error(String message) void
+    }
+
+    GameLogger --> GameLogger : instance
+        </div>
+      </div>
+      <div class="badge-list">
+        <span class="badge">단일 인스턴스 보장</span>
+        <span class="badge">전역 접근점</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Factory 패턴 — EnemyRegistry</h2>
+      <p class="desc">적 객체 생성 로직을 중앙화하여 코드 중복 제거.</p>
+      <div class="diagram-card">
+        <div class="mermaid">
+classDiagram
+    class EnemyRegistry {
+        +create(String type) Enemy
+    }
+    class Enemy {
+        -String name
+        -int hp
+        -int damage
+        +getName() String
+        +getHp() int
+    }
+    class SlimeEnemy {
+        +SlimeEnemy()
+    }
+    class DragonEnemy {
+        +DragonEnemy()
+    }
+
+    EnemyRegistry ..> Enemy : creates
+    Enemy <|-- SlimeEnemy
+    Enemy <|-- DragonEnemy
+        </div>
+      </div>
+      <div class="badge-list">
+        <span class="badge">생성 로직 캡슐화</span>
+        <span class="badge">새 적 추가 용이</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>멀티스레드 — AutoSaveTask</h2>
+    <p class="desc">30초마다 백그라운드에서 자동 저장을 수행하는 스레드 구조.</p>
+    <div class="diagram-card">
+      <div class="mermaid">
+sequenceDiagram
+    participant Main as Game (메인 스레드)
+    participant Task as AutoSaveTask (백그라운드)
+    participant File as 저장 파일
+
+    Main->>Task: new Thread(AutoSaveTask).start()
+    loop 30초마다
+        Task->>Task: Thread.sleep(30000)
+        Task->>File: saveGame()
+        Task->>Main: GameLogger.log("자동 저장 완료")
+    end
+    Main->>Task: interrupt() [게임 종료 시]
+      </div>
+    </div>
+    <div class="badge-list">
+      <span class="badge">Runnable 구현</span>
+      <span class="badge">비동기 저장</span>
+      <span class="badge">메인 스레드 블로킹 없음</span>
+      <span class="badge">인터럽트 안전 종료</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== TAB 3: 클래스 구조 ==================== -->
+<div id="tab-class" class="tab-content">
+
+  <div class="section">
+    <h2>패키지 구조</h2>
+    <p class="desc">프로젝트의 패키지 계층과 주요 클래스 배치.</p>
+    <div class="diagram-card">
+      <div class="mermaid">
+graph TD
+    Root["com.hotmail.kalebmarc.textfighter"]
+
+    Root --> PKG_MAIN["main 패키지"]
+    Root --> PKG_PLAYER["player 패키지"]
+    Root --> PKG_ITEM["item 패키지"]
+
+    PKG_MAIN --> M1[Game]
+    PKG_MAIN --> M2[BattleManager]
+    PKG_MAIN --> M3[Enemy]
+    PKG_MAIN --> M4[Weapon]
+    PKG_MAIN --> M5[Casino]
+    PKG_MAIN --> M6[Shop]
+    PKG_MAIN --> M7[Bank + Loan]
+    PKG_MAIN --> M8[Food + NPC]
+    PKG_MAIN --> M9[Settings + Cheats]
+    PKG_MAIN --> M10[GameLogger Singleton]
+    PKG_MAIN --> M11[AutoSaveTask Thread]
+    PKG_MAIN --> M12[QuestManager Observer]
+
+    PKG_PLAYER --> P1[Health]
+    PKG_PLAYER --> P2[Coins + Bank]
+    PKG_PLAYER --> P3[Xp + Stats]
+    PKG_PLAYER --> P4[Achievements]
+    PKG_PLAYER --> P5[User]
+
+    PKG_ITEM --> I1[Power]
+    PKG_ITEM --> I2[InstaHealth]
+    PKG_ITEM --> I3[FirstAid]
+    PKG_ITEM --> I4[Potion]
+    PKG_ITEM --> I5[Armour]
+
+    style Root fill:#e94560,color:#fff
+    style PKG_MAIN fill:#0f3460,color:#7ec8e3
+    style PKG_PLAYER fill:#0f3460,color:#7ec8e3
+    style PKG_ITEM fill:#0f3460,color:#7ec8e3
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>핵심 클래스 관계도</h2>
+    <p class="desc">주요 클래스 간의 의존 관계.</p>
+    <div class="diagram-card">
+      <div class="mermaid">
+classDiagram
+    class Game {
+        +main() void
+        +hud() void
+        +battle() void
+        +home() void
+        +town() void
+    }
+    class BattleManager {
+        -BattleStrategy strategy
+        +startBattle() void
+    }
+    class Health {
+        +int hp
+        +int timesDied
+        +gain(int) void
+        +damage(int) void
+    }
+    class Coins {
+        +int coins
+        +get() int
+        +set(int, bool) void
+    }
+    class Xp {
+        +int xp
+        +getLevel() int
+        +set(int, bool) void
+    }
+    class Enemy {
+        +String name
+        +int hp
+        +get() Enemy
+    }
+    class Weapon {
+        +String name
+        +int ammo
+        +get() Weapon
+    }
+    class Achievements {
+        +check() void
+        +getEnemyAch(Enemy) void
+    }
+    class QuestManager {
+        +onEvent(String, int) void
+        +getInstance() QuestManager
+    }
+    class GameLogger {
+        +log(String) void
+        +getInstance() GameLogger
+    }
+    class AutoSaveTask {
+        +run() void
+    }
+
+    Game --> BattleManager : uses
+    Game --> Health : reads
+    Game --> Coins : reads
+    Game --> Xp : reads
+    Game --> Enemy : displays
+    Game --> Weapon : displays
+    Game --> Achievements : triggers
+    Game --> QuestManager : notifies
+    Game --> AutoSaveTask : starts
+    AutoSaveTask --> GameLogger : logs
+    BattleManager --> Enemy : fights
+    BattleManager --> Weapon : attacks with
+    BattleManager --> Health : modifies
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== TAB 4: 요약 ==================== -->
+<div id="tab-summary" class="tab-content">
+
+  <div class="section">
+    <h2>적용된 디자인 패턴 요약</h2>
+    <p class="desc">이번 구현에서 적용한 4가지 디자인 패턴과 역할.</p>
+    <div class="diagram-card">
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>패턴</th>
+            <th>적용 위치</th>
+            <th>목적</th>
+            <th>효과</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Strategy</strong></td>
+            <td>BattleManager</td>
+            <td>전투 알고리즘 교체</td>
+            <td>일반전 / 보스전 전략 분리, 확장 용이</td>
+          </tr>
+          <tr>
+            <td><strong>Observer</strong></td>
+            <td>QuestManager</td>
+            <td>이벤트 기반 퀘스트 업데이트</td>
+            <td>게임 이벤트와 퀘스트 로직 분리</td>
+          </tr>
+          <tr>
+            <td><strong>Singleton</strong></td>
+            <td>GameLogger</td>
+            <td>전역 로거 단일화</td>
+            <td>일관된 로그 관리, 중복 인스턴스 방지</td>
+          </tr>
+          <tr>
+            <td><strong>Factory</strong></td>
+            <td>EnemyRegistry</td>
+            <td>적 객체 생성 중앙화</td>
+            <td>생성 로직 캡슐화, 새 적 추가 용이</td>
+          </tr>
+          <tr>
+            <td><strong>Multithreading</strong></td>
+            <td>AutoSaveTask</td>
+            <td>백그라운드 자동 저장</td>
+            <td>30초 주기 저장, 메인 스레드 비차단</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>개선 전 / 후 비교</h2>
+    <p class="desc">UI 및 구조 개선 사항.</p>
+    <div class="before-after">
+      <div class="ba-card before">
+        <h3>개선 전 (Before)</h3>
+        <ul>
+          <li>UI 텍스트 전체 영어</li>
+          <li>구분선 길이 불일치 (39자 ~ 67자)</li>
+          <li>섹션 구분 없는 정보 나열</li>
+          <li>전투 알고리즘이 Game 클래스에 직접 작성</li>
+          <li>퀘스트 진행도 수동 체크</li>
+          <li>로거 인스턴스 여러 개 생성 가능</li>
+          <li>자동 저장 없음</li>
+        </ul>
+      </div>
+      <div class="ba-card after">
+        <h3>개선 후 (After)</h3>
+        <ul>
+          <li>UI 전체 한국어화</li>
+          <li>구분선 60자로 표준화</li>
+          <li>[섹션명] 헤더로 가독성 향상</li>
+          <li>BattleManager(Strategy)로 전투 분리</li>
+          <li>QuestManager(Observer)로 자동 퀘스트 추적</li>
+          <li>GameLogger(Singleton)로 단일 로거 보장</li>
+          <li>AutoSaveTask(Thread)로 30초 자동 저장</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>게임 전체 구성 마인드맵</h2>
+    <p class="desc">Text Fighter 프로젝트의 핵심 구성 요소.</p>
+    <div class="diagram-card">
+      <div class="mermaid">
+mindmap
+  root((Text Fighter))
+    게임 흐름
+      시작 및 로딩
+      메인 메뉴
+      HUD + 전투
+      집 + 마을
+      저장 + 종료
+    플레이어
+      체력 (Health)
+      코인 (Coins)
+      경험치 (Xp)
+      통계 (Stats)
+      업적 (Achievements)
+    전투 시스템
+      BattleManager Strategy
+      무기 + 탄약
+      크리티컬 판정
+      적 등장 + 처치
+    마을 시설
+      상점 5가지 카테고리
+      은행 + 대출
+      카지노 4가지 게임
+      음식 + NPC
+    디자인 패턴
+      Strategy BattleManager
+      Observer QuestManager
+      Singleton GameLogger
+      Factory EnemyRegistry
+      Thread AutoSaveTask
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    securityLevel: 'loose',
+    flowchart: { curve: 'basis', useMaxWidth: true },
+    classDiagram: { useMaxWidth: true },
+    sequence: { useMaxWidth: true },
+    mindmap: { useMaxWidth: true }
+  });
+
+  function switchTab(btn, id) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(id).classList.add('active');
+
+    // Re-render mermaid diagrams in newly visible tab
+    mermaid.init(undefined, document.getElementById(id).querySelectorAll('.mermaid'));
+  }
+</script>
+
+</body>
+</html>
