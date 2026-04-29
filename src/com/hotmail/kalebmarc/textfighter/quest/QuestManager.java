@@ -22,16 +22,15 @@ import java.util.stream.Collectors;
  */
 public class QuestManager {
 
-    // ── Singleton ────────────────────────────────────────
-    private static QuestManager instance;
-
+    // ── Singleton (static holder — lazy + thread-safe, lock 없음) ──────
     private QuestManager() {}
 
+    private static class Holder {
+        static final QuestManager INSTANCE = new QuestManager();
+    }
+
     public static QuestManager getInstance() {
-        if (instance == null) {
-            instance = new QuestManager();
-        }
-        return instance;
+        return Holder.INSTANCE;
     }
 
     // ── Observer 목록 ────────────────────────────────────

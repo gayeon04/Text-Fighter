@@ -24,6 +24,7 @@ public class EnemyRegistry {
 
 
     public static Optional<Enemy> createRandom() {
+        if (registry.isEmpty()) return Optional.empty();
         List<String> keys = new ArrayList<>(registry.keySet());
         Collections.shuffle(keys);
         return create(keys.get(0));

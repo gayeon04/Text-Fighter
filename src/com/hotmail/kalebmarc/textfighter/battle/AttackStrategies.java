@@ -18,8 +18,10 @@ public class AttackStrategies {
      * 기본 근접 공격 - 범위 내 랜덤 데미지.
      * 기존 코드의 일반 전투 로직과 동일.
      */
-    public static final AttackStrategy MELEE = (min, max) ->
-            min + random.nextInt(max - min + 1);
+    public static final AttackStrategy MELEE = (min, max) -> {
+        if (max <= min) return min;
+        return min + random.nextInt(max - min + 1);
+    };
 
     /**
      * 저격 전략 - 70% 확률로 명중, 30% 빗나감.
@@ -29,14 +31,16 @@ public class AttackStrategies {
         if (random.nextInt(100) < 30) {
             return 0; // 빗나감
         }
-        return (int) ((min + random.nextInt(max - min + 1)) * 1.5); // 명중 시 1.5배
+        int range = (max > min) ? max - min + 1 : 1;
+        return (int) ((min + random.nextInt(range)) * 1.5);
     };
 
     /**
      * 산탄총 전략 - 낮은 데미지지만 반드시 명중 + 추가타 확률.
      */
     public static final AttackStrategy SHOTGUN = (min, max) -> {
-        int base = min + random.nextInt(max - min + 1);
+        int range = (max > min) ? max - min + 1 : 1;
+        int base = min + random.nextInt(range);
         int pellets = 2 + random.nextInt(3); // 2~4발
         return base * pellets / 3;
     };

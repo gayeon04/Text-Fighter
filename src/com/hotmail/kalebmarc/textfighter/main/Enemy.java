@@ -94,7 +94,12 @@ public class Enemy {
                 suitableEnemies.add(getEnemies().get(i));
             }
         }
-        current = suitableEnemies.get(Random.RInt(0, suitableEnemies.size() -1));
+
+        if (suitableEnemies.isEmpty()) {
+            // 레벨에 맞는 적이 없으면 전체 목록에서 선택
+            suitableEnemies = getEnemies();
+        }
+        current = suitableEnemies.get(Random.RInt(0, suitableEnemies.size() - 1));
     }
 
     public static void encounterNew() {
@@ -135,11 +140,12 @@ public class Enemy {
         //Get rewards & store in temp vars
         int tempCoin = Random.RInt(coinDropMin, coinDropMax);
         int tempHealth = Random.RInt(0, 2);
-        xp += com.hotmail.kalebmarc.textfighter.player.Xp.getBattleXp();
+        // xp 필드를 직접 누적하면 반복 처치 시 계속 쌓이므로 지역 변수로 처리
+        int totalXp = xp + com.hotmail.kalebmarc.textfighter.player.Xp.getBattleXp();
         com.hotmail.kalebmarc.textfighter.player.Xp.setBattleXp(0, false);
 
         //Prompt enemy death
-        Ui.popup("You have defeated an enemy, dealing " + Weapon.get().getDamageDealt() + " damage! You've found " + tempCoin + " coins, and " + xp + "Xp!", "You've defeated an enemy!", JOptionPane.PLAIN_MESSAGE);
+        Ui.popup("You have defeated an enemy, dealing " + Weapon.get().getDamageDealt() + " damage! You've found " + tempCoin + " coins, and " + totalXp + "Xp!", "You've defeated an enemy!", JOptionPane.PLAIN_MESSAGE);
 
         //Rewards
         testFoundPipe();
@@ -155,7 +161,7 @@ public class Enemy {
                 Potion.set("recovery", 1, true);
                 break;
         }
-        Xp.set(xp, true);
+        Xp.set(totalXp, true);
         Stats.kills++;
         Stats.totalKills++;
 

@@ -235,8 +235,16 @@ public class Game {
 
 					if (damage > 0) {
 						boolean killed = Enemy.get().takeDamage(damage);
-						battleRecord.record(BattleRecord.EventType.ATTACK, damage, Weapon.get().getName());
 						logger.battle(Weapon.get().getName() + " → " + damage + " 데미지");
+
+						// 크리티컬 여부에 따라 ATTACK/CRITICAL 중 하나만 기록 (중복 집계 방지)
+						boolean isCritical = damage >= Weapon.get().getDamageMax() * 1.8;
+						if (isCritical) {
+							battleRecord.record(BattleRecord.EventType.CRITICAL, damage, Weapon.get().getName());
+							questManager.notify(GameEvent.CRITICAL_HIT, damage);
+						} else {
+							battleRecord.record(BattleRecord.EventType.ATTACK, damage, Weapon.get().getName());
+						}
 
 						Ui.println("----------------------------------------------------");
 						Ui.println(Enemy.get().getName() + "을(를) 공격했습니다!");
@@ -251,12 +259,6 @@ public class Game {
 							questManager.notify(GameEvent.ENEMY_KILLED, Enemy.get().getName());
 							battleRecord.record(BattleRecord.EventType.KILL, 1, Enemy.get().getName());
 							logger.battle(Enemy.get().getName() + " 처치!");
-						}
-
-						// 크리티컬 체크
-						if (damage >= Weapon.get().getDamageMax() * 1.8) {
-							questManager.notify(GameEvent.CRITICAL_HIT, damage);
-							battleRecord.record(BattleRecord.EventType.CRITICAL, damage, "크리티컬!");
 						}
 
 					} else {
@@ -431,7 +433,9 @@ public class Game {
 			Ui.println("     Health: " + getStr());
 			Ui.println("     Coins: " + Coins.get());
 			Ui.println("     First-Aid kits: " + FirstAid.get());
-			Ui.println("     Potions: " + (Potion.get("survival") + Potion.get("recovery")));
+			Ui.println("     Potions: ");
+			Ui.println("          Survival: " + Potion.get("survival"));
+			Ui.println("          Recovery: " + Potion.get("recovery"));
 			Ui.println("     Equipped Weapon: " + Weapon.get().getName());
 			Ui.println("------------------------------------------------------------------");
 			Ui.println("1) 무기 장착");
