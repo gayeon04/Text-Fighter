@@ -344,6 +344,7 @@ public class Game {
 					printBattleReport();
 					questManager.printStatus();
 					logger.info("Game ended");
+					Ui.pause();
 					return;
 
 				case 0:
