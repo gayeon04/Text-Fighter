@@ -42,6 +42,9 @@ public class KillQuest extends Quest {
         }
     }
 
+    @Override
+    public String getProgressStr() { return currentKills + "/" + requiredKills; }
+
     public int getCurrentKills() { return currentKills;  }
     public int getRequiredKills(){ return requiredKills; }
 }

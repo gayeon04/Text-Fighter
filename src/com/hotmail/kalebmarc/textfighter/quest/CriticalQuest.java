@@ -22,8 +22,12 @@ public class CriticalQuest extends Quest {
         if (event != GameEvent.CRITICAL_HIT) return;
 
         currentCrits++;
-        System.out.printf("   [Quest] %s: %d / %d%n", title, currentCrits, requiredCrits);        if (currentCrits >= requiredCrits) {
+        System.out.printf("   [Quest] %s: %d / %d%n", title, currentCrits, requiredCrits);
+        if (currentCrits >= requiredCrits) {
             complete();
         }
     }
+
+    @Override
+    public String getProgressStr() { return currentCrits + "/" + requiredCrits; }
 }

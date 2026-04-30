@@ -11,6 +11,7 @@ import com.hotmail.kalebmarc.textfighter.player.*;
 import com.hotmail.kalebmarc.textfighter.quest.CriticalQuest;
 import com.hotmail.kalebmarc.textfighter.quest.GameEvent;
 import com.hotmail.kalebmarc.textfighter.quest.KillQuest;
+import com.hotmail.kalebmarc.textfighter.quest.Quest;
 import com.hotmail.kalebmarc.textfighter.quest.QuestManager;
 import com.hotmail.kalebmarc.textfighter.util.AutoSaveTask;
 import com.hotmail.kalebmarc.textfighter.util.GameLogger;
@@ -182,44 +183,49 @@ public class Game {
 
 			Ui.cls();
 
-			Ui.println("Text-Fighter " + Version.getFull());
-			Ui.println("------------------------------------------------------------------");
-			if (Cheats.enabled()) Ui.println("CHEATS ACTIVATED");
-			Ui.println(Settings.godModeMsg());
-			Ui.println("--Score Info--");
-			Ui.println("     Level " + Xp.getLevel() + "      " + Xp.getFull());
-			Ui.println("     Kill Streak: " + Stats.kills);
-			Ui.println("     Highest Kill Streak: " + Stats.highScore);
-			Ui.println("--" + User.name() + "--");
-			Ui.println("     Health: " + getStr());
-			Ui.println("     Coins: " + Coins.get());
-			Ui.println("     First-Aid kits: " + FirstAid.get());
-			Ui.println("     Potions: ");
-			Ui.println("          Survival: " + Potion.get("survival"));
-			Ui.println("          Recovery: " + Potion.get("recovery"));
-			Ui.println("     Equipped armour: " + Armour.getEquipped().toString());
-			Ui.println("     Equipped Weapon: " + Weapon.get().getName());
+			final String DIV  = "==================================================================";
+			final String LINE = "------------------------------------------------------------------";
+
 			GameClock.updateGameTime();
-			Ui.println("--Time--");
-			Ui.println("     Date: " + GameClock.getGameDate());
-			Ui.println("     Clock: " + GameClock.getGameTime());
+
+			Ui.println(DIV);
+			String title = "  Text-Fighter " + Version.getFull();
+			String scoreStr = "Kill: " + Stats.kills + " | Best: " + Stats.highScore + "  ";
+			int pad = DIV.length() - title.length() - scoreStr.length();
+			Ui.println(title + " ".repeat(Math.max(1, pad)) + scoreStr);
+			if (Cheats.enabled()) Ui.println("  !! CHEATS ACTIVATED !!");
+			String godMsg = Settings.godModeMsg();
+			if (godMsg != null && !godMsg.isEmpty()) Ui.println("  " + godMsg);
+			Ui.println(LINE);
+			Ui.println("  Player : " + User.name() + "   Lv." + Xp.getLevel() + "  " + Xp.getFull());
+			Ui.println("  Health : " + getStr() + "   Coins: " + Coins.get() + "   Armour: " + Armour.getEquipped().toString());
+			Ui.println("  Weapon : " + Weapon.get().getName() + "   FA: x" + FirstAid.get() + "   Surv: x" + Potion.get("survival") + "   Rec: x" + Potion.get("recovery"));
 			Weapon.displayAmmo();
-			Ui.println("--Enemy Info--");
-			Ui.println("     Enemy: " + Enemy.get().getName());
-			Ui.println("     Enemy Health: " + Enemy.get().getHeathStr());
-			Ui.println("     Enemy's First Aid Kit's: " + Enemy.get().getFirstAidKit());
-			Ui.println("------------------------------------------------------------------");
-			Ui.println("1) Fight");
-			Ui.println("2) Go home");
-			Ui.println("3) Go to town");
-			Ui.println("4) Use first-aid kit");
-			Ui.println("5) Use potion");
-			Ui.println("6) Eat food");
-			Ui.println("7) Use Insta-Heal");
-			Ui.println("8) Use POWER");
-			Ui.println("9) Run away (lose battle XP)");
-			Ui.println("10) Quit (auto-save)");
-			Ui.println("------------------------------------------------------------------");
+			Ui.println("  Time   : " + GameClock.getGameDate() + "   " + GameClock.getGameTime());
+			Ui.println(LINE);
+			Ui.println("  Enemy  : " + Enemy.get().getName() + "   Health: " + Enemy.get().getHeathStr() + "   First-Aid: " + Enemy.get().getFirstAidKit());
+			Ui.println(DIV);
+			Ui.println("  IMPLEMENTED SYSTEMS");
+			Ui.println(String.format("  [Strategy Pattern]  %-14s  [Singleton Logger]  %d logs",
+					battleManager.getStrategyName(), logger.size()));
+			Ui.println(String.format("  [Observer/Quest]    %d active, %d done  [Thread AutoSave]   %s",
+					questManager.getActiveQuests().size(),
+					questManager.getCompletedQuests().size(),
+					autoSave.isRunning() ? "Running (x" + autoSave.getSaveCount() + ")" : "Stopped"));
+			if (!questManager.getActiveQuests().isEmpty()) {
+				StringBuilder qb = new StringBuilder("    ");
+				questManager.getActiveQuests().stream()
+						.filter(o -> o instanceof Quest)
+						.map(o -> (Quest) o)
+						.forEach(q -> qb.append(q.getTitle()).append(" ").append(q.getProgressStr()).append("  "));
+				Ui.println(qb.toString());
+			}
+			Ui.println(DIV);
+			Ui.println("  1) Fight        2) Home         3) Town");
+			Ui.println("  4) First-Aid    5) Potion       6) Eat Food");
+			Ui.println("  7) Insta-Heal   8) Use Power    9) Run Away");
+			Ui.println("  10) Quit");
+			Ui.println(DIV);
 
 			switch (Ui.getValidInt()) {
 

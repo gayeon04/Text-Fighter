@@ -92,6 +92,14 @@ public class BattleManager {
     public int getCriticalHits()     { return criticalHits;     }
     public int getMissCount()        { return missCount;        }
 
+    public String getStrategyName() {
+        if (strategy == AttackStrategies.SNIPER)   return "SNIPER";
+        if (strategy == AttackStrategies.SHOTGUN)  return "SHOTGUN";
+        if (strategy == AttackStrategies.CRITICAL) return "CRITICAL";
+        if (strategy == AttackStrategies.MELEE)    return "MELEE";
+        return "CUSTOM";
+    }
+
     public List<String> getBattleLog() {
         return List.copyOf(battleLog);
     }

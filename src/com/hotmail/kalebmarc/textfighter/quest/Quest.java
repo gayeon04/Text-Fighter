@@ -32,6 +32,8 @@ public abstract class Quest implements GameObserver {
         System.out.println("   " + description);
         System.out.println("   Reward: " + rewardCoins + " coins"); }
 
+    public abstract String getProgressStr();
+
     public boolean isCompleted()   { return completed;    }
     public String  getTitle()      { return title;        }
     public String  getDescription(){ return description;  }
