@@ -1,8 +1,14 @@
 package com.hotmail.kalebmarc.textfighter.main;
 
+import java.io.PrintStream;
+
 class Start {
 
     public static void main(String[] args) {
+        try {
+            System.setOut(new PrintStream(System.out, true, "UTF-8"));
+            System.setErr(new PrintStream(System.err, true, "UTF-8"));
+        } catch (Exception ignored) {}
 
         if (args.length != 0 && args[0].equalsIgnoreCase("nogui")) Ui.guiEnabled = false;
         Ui.println("로딩 중...");

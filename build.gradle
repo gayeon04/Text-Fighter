@@ -40,6 +40,7 @@ application {
 mainClassName = 'com.hotmail.kalebmarc.textfighter.main.Start'
 
 jar {
+    archiveFileName = 'TextFighter.jar'
     manifest {
         attributes(
                 'Main-Class': mainClassName
@@ -48,6 +49,11 @@ jar {
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }
 
 tasks.named('test') {
@@ -60,5 +66,6 @@ run{
 }
 
 tasks.withType(JavaExec) {
-    environment 'JAVA_TOOL_OPTIONS', '-Dfile.encoding=UTF-8 -Dstdout.encoding=UTF-8'
+    environment 'JAVA_TOOL_OPTIONS', '-Dfile.encoding=UTF-8 -Dstdout.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8'
+    jvmArgs '-Dfile.encoding=UTF-8', '-Dstdout.encoding=UTF-8', '-Dsun.stdout.encoding=UTF-8'
 }

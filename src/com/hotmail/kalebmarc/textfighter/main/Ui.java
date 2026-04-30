@@ -117,7 +117,7 @@ public class Ui {
     public static void cls() {
         try {
             if (System.getProperty("os.name").contains("Windows"))
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+                new ProcessBuilder("cmd", "/c", "chcp 65001 > nul && cls").inheritIO().start().waitFor();
             else
                 Runtime.getRuntime().exec("clear");
         } catch (IOException | InterruptedException exception) {
