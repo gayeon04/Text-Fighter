@@ -213,23 +213,31 @@ Double-checked locking + `volatile`로 멀티스레드 환경에서도 안전한
 
 ---
 
+
 ## 실행 화면
 
-### 게임 메인 화면 + AutoSave
-![게임 실행](screenshots/6.png)
+![인벤토리](screenshots/1.png)
+![인벤토리](screenshots/3.png)
 
-### 퀘스트 완료
-![퀘스트](screenshots/15.png)
+### 인벤토리
+![인벤토리](screenshots/6.png)
 
-### Step 테스트 출력
-![테스트](screenshots/16.png)
-
-### 전투 분석 리포트
-![분석](screenshots/17.png)
-
-### 자동 저장
+### AutoSave/멀티스레드
 ![저장](screenshots/7.png)
 ![저장](screenshots/8.png)
+
+### Observer : 업적알림, 퀘스트 업데이트
+![업적](screenshots/11.png)
+![퀘스트](screenshots/14.png)
+
+### EnemyRegistry /퀘스트 완료
+![분석](screenshots/17.png)
+
+
+이 외 스크린샷 폴더에 다른 기능에 대한 스크린샷이 있습니다
+![인벤토리](screenshots/10.png)
+![인벤토리](screenshots/20.png)
+
 
 ## 본인이 구현한 부분
 
