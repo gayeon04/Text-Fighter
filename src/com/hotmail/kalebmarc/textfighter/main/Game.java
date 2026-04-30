@@ -254,6 +254,10 @@ public class Game {
 							battleRecord.record(BattleRecord.EventType.KILL, 1, Enemy.get().getName());
 							logger.battle(Enemy.get().getName() + " 처치!");
 						}
+						else {
+							// 적이 살아있으면 반격
+							Enemy.get().dealDamage();
+						}
 
 					} else {
 						// 빗나감 - 적이 반격
@@ -335,6 +339,7 @@ public class Game {
 					printBattleReport();
 					questManager.printStatus();
 					logger.info("게임 종료");
+					Ui.pause();
 					return;
 
 				case 0:

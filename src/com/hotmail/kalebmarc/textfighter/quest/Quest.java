@@ -31,6 +31,7 @@ public abstract class Quest implements GameObserver {
         System.out.println("\n🎉 퀘스트 완료: [" + title + "]");
         System.out.println("   " + description);
         System.out.println("   보상: " + rewardCoins + " 코인");
+
     }
 
     public boolean isCompleted()   { return completed;    }
