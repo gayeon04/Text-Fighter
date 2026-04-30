@@ -23,7 +23,7 @@ class Start {
 }
 
 /*
- *
+ * 기존 시스템상에서 적, 무기 추가할 시 해야하는 것
  * To create new enemies:
  *    First, create enemy object at the top of the com.hotmail.kalebmarc.textfighter.Game class.
  *    Change the properties in the com.hotmail.kalebmarc.player.Settings class, in the setConstants method.

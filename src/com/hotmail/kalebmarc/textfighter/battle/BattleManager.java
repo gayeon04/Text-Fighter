@@ -36,8 +36,7 @@ public class BattleManager {
      */
     public void setStrategy(AttackStrategy strategy) {
         this.strategy = strategy;
-        log("전략 변경 → " + strategy.getClass().getSimpleName());
-    }
+        log("Strategy changed -> " + strategy.getClass().getSimpleName());    }
 
     /**
      * 공격 실행 - 현재 전략으로 데미지 계산.
@@ -53,14 +52,14 @@ public class BattleManager {
 
         if (damage == 0) {
             missCount++;
-            log("공격 빗나감! (" + weaponName + ")");
+            log("Attack missed! (" + weaponName + ")");
         } else if (damage >= dmgMax * 1.8) {
             criticalHits++;
             totalDamageDealt += damage;
-            log("크리티컬! " + weaponName + " → " + damage + " 데미지");
+            log("Critical hit! " + weaponName + " -> " + damage + " damage");
         } else {
             totalDamageDealt += damage;
-            log(weaponName + " → " + damage + " 데미지");
+            log(weaponName + " -> " + damage + " damage");
         }
 
         return damage;
@@ -71,7 +70,7 @@ public class BattleManager {
      */
     public void takeDamage(int damage, String enemyName) {
         totalDamageTaken += damage;
-        log(enemyName + "의 반격 → " + damage + " 피해");
+        log(enemyName + " counterattacked -> " + damage + " damage taken");
     }
 
     // ── 로그 ────────────────────────────────────────────
@@ -81,7 +80,7 @@ public class BattleManager {
     }
 
     public void printLog() {
-        System.out.println("\n[전투 로그]");
+        System.out.println("\n[Battle Log]");
         battleLog.forEach(entry -> System.out.println("  - " + entry));
     }
 

@@ -70,8 +70,7 @@ public class AutoSaveTask {
                 intervalSeconds,       // 반복 간격
                 TimeUnit.SECONDS
         );
-        System.out.println("[AutoSave] 자동저장 시작 — " + intervalSeconds + "초마다 저장");
-    }
+        System.out.println("[AutoSave] Started - saving every " + intervalSeconds + " seconds");    }
 
     /**
      * 실제 저장 실행 (별도 스레드에서 호출됨).
@@ -79,13 +78,10 @@ public class AutoSaveTask {
     private void doSave() {
         int count = saveCount.incrementAndGet();
         String time = LocalDateTime.now().format(FORMATTER);
-        System.out.println("[AutoSave] 저장 중... (" + time + ") — " + count + "번째");
-        try {
+        System.out.println("[AutoSave] Saving... (" + time + ") - #" + count);        try {
             saveAction.run(); // 외부에서 주입된 저장 로직 실행
-            System.out.println("[AutoSave] 저장 완료 ✓");
-        } catch (Exception e) {
-            System.out.println("[AutoSave] 저장 실패: " + e.getMessage());
-        }
+            System.out.println("[AutoSave] Save completed");        } catch (Exception e) {
+            System.out.println("[AutoSave] Save failed: " + e.getMessage());        }
     }
 
     /**
@@ -97,8 +93,7 @@ public class AutoSaveTask {
             saveTask.cancel(false); // 현재 실행 중인 작업은 완료 후 중지
         }
         scheduler.shutdown();
-        System.out.println("[AutoSave] 자동저장 중지 — 총 " + saveCount.get() + "번 저장됨");
-    }
+        System.out.println("[AutoSave] Stopped - total saves: " + saveCount.get());    }
 
     /**
      * 즉시 한 번 저장 (수동 트리거).

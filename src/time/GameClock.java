@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class GameClock {
@@ -19,7 +20,7 @@ public class GameClock {
 	private static long increasedTime;
 	// Maybe where we set increasePercent could be moved to Settings?
 	private static double increasePercent = 0.5;  // Time increase can be changed to desired increase.
-	private static DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("E, MMM dd yyyy-HH:mm:ss");
+	private static DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("E, MMM dd yyyy-HH:mm:ss", Locale.ENGLISH);
 	private static String gameDate;
 	private static String gameTime;
 	

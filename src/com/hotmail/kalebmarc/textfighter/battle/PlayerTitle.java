@@ -11,44 +11,44 @@ package com.hotmail.kalebmarc.textfighter.battle;
 public enum PlayerTitle {
 
     GLASS_CANNON(
-            "🗡 유리 대포",
-            "공격력은 최강인데 방어력은... 없습니다.\n" +
-                    "    적보다 먼저 쓰러지면 의미가 없습니다."
+            "Glass Cannon",
+            "Max offense, zero defense.\n" +
+                    "    Dying before the enemy does defeats the purpose."
     ),
     TANK(
-            "🛡 맞으면서 이기는 스타일",
-            "포션 소비량이 심상치 않습니다.\n" +
-                    "    그래도 이긴 건 이긴 겁니다."
+            "Takes a Beating",
+            "Your potion consumption is alarming.\n" +
+                    "    But a win is a win."
     ),
     COWARD(
-            "🏃 도망의 미학",
-            "도망치는 것도 전략입니다. 아마도.\n" +
-                    "    살아있는 게 이기는 겁니다."
+            "The Art of Running",
+            "Running away is also a strategy. Probably.\n" +
+                    "    Staying alive counts as winning."
     ),
     PERFECTIONIST(
-            "✨ 무결점 전사",
-            "흠잡을 데가 없습니다.\n" +
-                    "    좀비 상대로긴 하지만요."
+            "Flawless Warrior",
+            "Nothing to complain about.\n" +
+                    "    Against zombies, but still."
     ),
     SNIPER_GOD(
-            "🎯 저격의 신",
-            "빗나간 적이 거의 없습니다.\n" +
-                    "    당신은 저격총을 위해 태어났습니다."
+            "Sniper God",
+            "Barely a miss in sight.\n" +
+                    "    You were born for the sniper rifle."
     ),
     BERSERKER(
-            "💢 버서커",
-            "크리티컬이 남발됩니다.\n" +
-                    "    분노가 전투력이 되는 타입입니다."
+            "Berserker",
+            "Criticals everywhere.\n" +
+                    "    Rage is your combat power."
     ),
     POTION_ADDICT(
-            "🧪 포션 중독자",
-            "포션을 너무 많이 씁니다.\n" +
-                    "    상점 사장이 당신을 좋아할 것 같습니다."
+            "Potion Addict",
+            "You use way too many potions.\n" +
+                    "    The shop owner loves you."
     ),
     LUCKY(
-            "🍀 운빨 승리자",
-            "실력인지 운인지 본인도 모를 것 같습니다.\n" +
-                    "    하지만 이겼으니 됩니다."
+            "Lucky Winner",
+            "Skill or luck? Even you don't know.\n" +
+                    "    But you won, so it's fine."
     );
 
     private final String title;

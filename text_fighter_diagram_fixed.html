@@ -145,17 +145,16 @@
   <button class="tab-btn" onclick="switchTab(this,'tab-summary')">요약</button>
 </div>
 
-<!-- ==================== TAB 1: 게임 흐름도 ==================== -->
 <div id="tab-flow" class="tab-content active">
 
   <div class="section">
     <h2>전체 게임 흐름</h2>
     <p class="desc">게임 시작부터 종료까지의 전체 플로우를 보여줍니다.</p>
     <div class="diagram-card">
-      <div class="mermaid">
+      <pre class="mermaid">
 flowchart TD
     A([게임 실행]) --> B[Start: 로딩 + 초기화]
-    B --> C{저장 파일\n존재?}
+    B --> C{저장 파일<br/>존재?}
     C -->|Yes| D[불러오기 선택]
     D -->|불러오기| E[저장 데이터 로드]
     D -->|새 게임| F[플레이어 이름 입력]
@@ -181,7 +180,7 @@ flowchart TD
     L4 --> I
 
     M --> M1{집 메뉴}
-    M1 -->|아이템 사용| M2[FirstAid/InstaHealth/Potion]
+    M1 -->|아이템 사용| M2[FirstAid / InstaHealth / Potion]
     M1 -->|통계 보기| M3[Stats 화면]
     M1 -->|업적 보기| M4[Achievements 화면]
     M1 -->|설정| M5[Settings 화면]
@@ -195,7 +194,7 @@ flowchart TD
 
     N --> N1{마을 메뉴}
     N1 -->|상점| N2[Shop]
-    N1 -->|은행| N3[Bank/Loan]
+    N1 -->|은행| N3[Bank / Loan]
     N1 -->|카지노| N4[Casino]
     N1 -->|음식| N5[Food]
     N1 -->|치트| N6[Cheats]
@@ -210,7 +209,7 @@ flowchart TD
     style L fill:#0f3460,color:#7ec8e3
     style L1 fill:#1a1a2e,color:#e0e0e0
     style G fill:#16213e,color:#e0e0e0
-      </div>
+      </pre>
     </div>
   </div>
 
@@ -219,7 +218,7 @@ flowchart TD
       <h2>집 메뉴 세부 흐름</h2>
       <p class="desc">플레이어가 집에서 할 수 있는 행동.</p>
       <div class="diagram-card">
-        <div class="mermaid">
+        <pre class="mermaid">
 flowchart TD
     H[집 메뉴] --> H1[아이템 사용]
     H --> H2[통계 보기]
@@ -229,14 +228,14 @@ flowchart TD
     H --> H6[뒤로]
 
     H1 --> H1a{아이템 선택}
-    H1a -->|응급 키트| FA[FirstAid: 체력+20]
+    H1a -->|응급 키트| FA[FirstAid: 체력 +20]
     H1a -->|인스타 힐| IH[InstaHealth: 즉시 회복]
     H1a -->|생존 포션| SP[체력 25 회복]
     H1a -->|회복 포션| RP[체력 50 회복]
 
     H4 --> S1[난이도 변경]
     H4 --> S2[갓모드 토글]
-        </div>
+        </pre>
       </div>
     </div>
 
@@ -244,7 +243,7 @@ flowchart TD
       <h2>마을 메뉴 세부 흐름</h2>
       <p class="desc">상점, 은행, 카지노 등 마을 시설.</p>
       <div class="diagram-card">
-        <div class="mermaid">
+        <pre class="mermaid">
 flowchart TD
     T[마을 메뉴] --> T1[상점]
     T --> T2[은행]
@@ -265,7 +264,7 @@ flowchart TD
     T3 --> C2[슬롯머신]
     T3 --> C3[블랙잭]
     T3 --> C4[복권]
-        </div>
+        </pre>
       </div>
     </div>
   </div>
@@ -274,19 +273,19 @@ flowchart TD
     <h2>전투 상세 흐름</h2>
     <p class="desc">BattleManager(Strategy 패턴)가 처리하는 전투 라운드.</p>
     <div class="diagram-card">
-      <div class="mermaid">
+      <pre class="mermaid">
 flowchart LR
     B1([전투 시작]) --> B2[적 등장 팝업]
     B2 --> B3[플레이어 공격]
     B3 --> B4{탄약 있음?}
-    B4 -->|Yes| B5[데미지 계산\n크리티컬 판정]
+    B4 -->|Yes| B5[데미지 계산<br/>크리티컬 판정]
     B4 -->|No| B6[탄약 없음 경고]
     B5 --> B7{적 HP 0?}
     B6 --> B3
-    B7 -->|Yes| B8[처치!\n코인+XP+업적]
+    B7 -->|Yes| B8[처치!<br/>코인 + XP + 업적]
     B7 -->|No| B9[적 반격]
     B9 --> B10{플레이어 HP 0?}
-    B10 -->|Yes| B11[사망!\n코인 손실]
+    B10 -->|Yes| B11[사망!<br/>코인 손실]
     B10 -->|No| B3
     B8 --> B12([전투 종료])
     B11 --> B12
@@ -294,20 +293,19 @@ flowchart LR
     style B1 fill:#e94560,color:#fff
     style B8 fill:#2a7a4a,color:#fff
     style B11 fill:#7a2a2a,color:#fff
-      </div>
+      </pre>
     </div>
   </div>
 
 </div>
 
-<!-- ==================== TAB 2: 디자인 패턴 ==================== -->
 <div id="tab-pattern" class="tab-content">
 
   <div class="section">
     <h2>Strategy 패턴 — BattleManager</h2>
     <p class="desc">전투 알고리즘을 인터페이스로 분리하여 런타임에 교체 가능하도록 설계.</p>
     <div class="diagram-card">
-      <div class="mermaid">
+      <pre class="mermaid">
 classDiagram
     class BattleStrategy {
         &lt;&lt;interface&gt;&gt;
@@ -328,7 +326,7 @@ classDiagram
     BattleStrategy <|.. NormalBattle
     BattleStrategy <|.. BossBattle
     BattleManager o-- BattleStrategy
-      </div>
+      </pre>
     </div>
     <div class="badge-list">
       <span class="badge">전투 알고리즘 캡슐화</span>
@@ -339,9 +337,9 @@ classDiagram
 
   <div class="section">
     <h2>Observer 패턴 — QuestManager</h2>
-    <p class="desc">게임 이벤트(처치, 코인 획득 등) 발생 시 자동으로 퀘스트 진행도를 업데이트.</p>
+    <p class="desc">게임 이벤트 발생 시 자동으로 퀘스트 진행도를 업데이트.</p>
     <div class="diagram-card">
-      <div class="mermaid">
+      <pre class="mermaid">
 classDiagram
     class GameEventListener {
         &lt;&lt;interface&gt;&gt;
@@ -368,10 +366,10 @@ classDiagram
     GameEventListener <|.. QuestManager
     QuestManager "1" *-- "many" Quest
     Game --> GameEventListener : notify
-      </div>
+      </pre>
     </div>
     <div class="badge-list">
-      <span class="badge">느슨한 결합(Loose Coupling)</span>
+      <span class="badge">느슨한 결합</span>
       <span class="badge">이벤트 기반 업데이트</span>
       <span class="badge">퀘스트 자동 추적</span>
     </div>
@@ -382,7 +380,7 @@ classDiagram
       <h2>Singleton 패턴 — GameLogger</h2>
       <p class="desc">게임 전체에서 로그 인스턴스를 하나만 유지.</p>
       <div class="diagram-card">
-        <div class="mermaid">
+        <pre class="mermaid">
 classDiagram
     class GameLogger {
         -static GameLogger instance
@@ -394,11 +392,7 @@ classDiagram
     }
 
     GameLogger --> GameLogger : instance
-        </div>
-      </div>
-      <div class="badge-list">
-        <span class="badge">단일 인스턴스 보장</span>
-        <span class="badge">전역 접근점</span>
+        </pre>
       </div>
     </div>
 
@@ -406,7 +400,7 @@ classDiagram
       <h2>Factory 패턴 — EnemyRegistry</h2>
       <p class="desc">적 객체 생성 로직을 중앙화하여 코드 중복 제거.</p>
       <div class="diagram-card">
-        <div class="mermaid">
+        <pre class="mermaid">
 classDiagram
     class EnemyRegistry {
         +create(String type) Enemy
@@ -428,11 +422,7 @@ classDiagram
     EnemyRegistry ..> Enemy : creates
     Enemy <|-- SlimeEnemy
     Enemy <|-- DragonEnemy
-        </div>
-      </div>
-      <div class="badge-list">
-        <span class="badge">생성 로직 캡슐화</span>
-        <span class="badge">새 적 추가 용이</span>
+        </pre>
       </div>
     </div>
   </div>
@@ -441,10 +431,10 @@ classDiagram
     <h2>멀티스레드 — AutoSaveTask</h2>
     <p class="desc">30초마다 백그라운드에서 자동 저장을 수행하는 스레드 구조.</p>
     <div class="diagram-card">
-      <div class="mermaid">
+      <pre class="mermaid">
 sequenceDiagram
-    participant Main as Game (메인 스레드)
-    participant Task as AutoSaveTask (백그라운드)
+    participant Main as Game 메인 스레드
+    participant Task as AutoSaveTask 백그라운드
     participant File as 저장 파일
 
     Main->>Task: new Thread(AutoSaveTask).start()
@@ -453,27 +443,20 @@ sequenceDiagram
         Task->>File: saveGame()
         Task->>Main: GameLogger.log("자동 저장 완료")
     end
-    Main->>Task: interrupt() [게임 종료 시]
-      </div>
-    </div>
-    <div class="badge-list">
-      <span class="badge">Runnable 구현</span>
-      <span class="badge">비동기 저장</span>
-      <span class="badge">메인 스레드 블로킹 없음</span>
-      <span class="badge">인터럽트 안전 종료</span>
+    Main->>Task: interrupt() 게임 종료 시
+      </pre>
     </div>
   </div>
 
 </div>
 
-<!-- ==================== TAB 3: 클래스 구조 ==================== -->
 <div id="tab-class" class="tab-content">
 
   <div class="section">
     <h2>패키지 구조</h2>
     <p class="desc">프로젝트의 패키지 계층과 주요 클래스 배치.</p>
     <div class="diagram-card">
-      <div class="mermaid">
+      <pre class="mermaid">
 graph TD
     Root["com.hotmail.kalebmarc.textfighter"]
 
@@ -487,16 +470,16 @@ graph TD
     PKG_MAIN --> M4[Weapon]
     PKG_MAIN --> M5[Casino]
     PKG_MAIN --> M6[Shop]
-    PKG_MAIN --> M7[Bank + Loan]
-    PKG_MAIN --> M8[Food + NPC]
-    PKG_MAIN --> M9[Settings + Cheats]
+    PKG_MAIN --> M7[Bank / Loan]
+    PKG_MAIN --> M8[Food / NPC]
+    PKG_MAIN --> M9[Settings / Cheats]
     PKG_MAIN --> M10[GameLogger Singleton]
     PKG_MAIN --> M11[AutoSaveTask Thread]
     PKG_MAIN --> M12[QuestManager Observer]
 
     PKG_PLAYER --> P1[Health]
-    PKG_PLAYER --> P2[Coins + Bank]
-    PKG_PLAYER --> P3[Xp + Stats]
+    PKG_PLAYER --> P2[Coins / Bank]
+    PKG_PLAYER --> P3[Xp / Stats]
     PKG_PLAYER --> P4[Achievements]
     PKG_PLAYER --> P5[User]
 
@@ -510,7 +493,7 @@ graph TD
     style PKG_MAIN fill:#0f3460,color:#7ec8e3
     style PKG_PLAYER fill:#0f3460,color:#7ec8e3
     style PKG_ITEM fill:#0f3460,color:#7ec8e3
-      </div>
+      </pre>
     </div>
   </div>
 
@@ -518,7 +501,7 @@ graph TD
     <h2>핵심 클래스 관계도</h2>
     <p class="desc">주요 클래스 간의 의존 관계.</p>
     <div class="diagram-card">
-      <div class="mermaid">
+      <pre class="mermaid">
 classDiagram
     class Game {
         +main() void
@@ -586,13 +569,12 @@ classDiagram
     BattleManager --> Enemy : fights
     BattleManager --> Weapon : attacks with
     BattleManager --> Health : modifies
-      </div>
+      </pre>
     </div>
   </div>
 
 </div>
 
-<!-- ==================== TAB 4: 요약 ==================== -->
 <div id="tab-summary" class="tab-content">
 
   <div class="section">
@@ -609,36 +591,11 @@ classDiagram
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><strong>Strategy</strong></td>
-            <td>BattleManager</td>
-            <td>전투 알고리즘 교체</td>
-            <td>일반전 / 보스전 전략 분리, 확장 용이</td>
-          </tr>
-          <tr>
-            <td><strong>Observer</strong></td>
-            <td>QuestManager</td>
-            <td>이벤트 기반 퀘스트 업데이트</td>
-            <td>게임 이벤트와 퀘스트 로직 분리</td>
-          </tr>
-          <tr>
-            <td><strong>Singleton</strong></td>
-            <td>GameLogger</td>
-            <td>전역 로거 단일화</td>
-            <td>일관된 로그 관리, 중복 인스턴스 방지</td>
-          </tr>
-          <tr>
-            <td><strong>Factory</strong></td>
-            <td>EnemyRegistry</td>
-            <td>적 객체 생성 중앙화</td>
-            <td>생성 로직 캡슐화, 새 적 추가 용이</td>
-          </tr>
-          <tr>
-            <td><strong>Multithreading</strong></td>
-            <td>AutoSaveTask</td>
-            <td>백그라운드 자동 저장</td>
-            <td>30초 주기 저장, 메인 스레드 비차단</td>
-          </tr>
+          <tr><td><strong>Strategy</strong></td><td>BattleManager</td><td>전투 알고리즘 교체</td><td>일반전 / 보스전 전략 분리, 확장 용이</td></tr>
+          <tr><td><strong>Observer</strong></td><td>QuestManager</td><td>이벤트 기반 퀘스트 업데이트</td><td>게임 이벤트와 퀘스트 로직 분리</td></tr>
+          <tr><td><strong>Singleton</strong></td><td>GameLogger</td><td>전역 로거 단일화</td><td>일관된 로그 관리, 중복 인스턴스 방지</td></tr>
+          <tr><td><strong>Factory</strong></td><td>EnemyRegistry</td><td>적 객체 생성 중앙화</td><td>생성 로직 캡슐화, 새 적 추가 용이</td></tr>
+          <tr><td><strong>Multithreading</strong></td><td>AutoSaveTask</td><td>백그라운드 자동 저장</td><td>30초 주기 저장, 메인 스레드 비차단</td></tr>
         </tbody>
       </table>
     </div>
@@ -652,7 +609,7 @@ classDiagram
         <h3>개선 전 (Before)</h3>
         <ul>
           <li>UI 텍스트 전체 영어</li>
-          <li>구분선 길이 불일치 (39자 ~ 67자)</li>
+          <li>구분선 길이 불일치</li>
           <li>섹션 구분 없는 정보 나열</li>
           <li>전투 알고리즘이 Game 클래스에 직접 작성</li>
           <li>퀘스트 진행도 수동 체크</li>
@@ -679,38 +636,38 @@ classDiagram
     <h2>게임 전체 구성 마인드맵</h2>
     <p class="desc">Text Fighter 프로젝트의 핵심 구성 요소.</p>
     <div class="diagram-card">
-      <div class="mermaid">
+      <pre class="mermaid">
 mindmap
   root((Text Fighter))
     게임 흐름
       시작 및 로딩
       메인 메뉴
-      HUD + 전투
-      집 + 마을
-      저장 + 종료
+      HUD와 전투
+      집과 마을
+      저장과 종료
     플레이어
-      체력 (Health)
-      코인 (Coins)
-      경험치 (Xp)
-      통계 (Stats)
-      업적 (Achievements)
+      체력 Health
+      코인 Coins
+      경험치 Xp
+      통계 Stats
+      업적 Achievements
     전투 시스템
       BattleManager Strategy
-      무기 + 탄약
+      무기와 탄약
       크리티컬 판정
-      적 등장 + 처치
+      적 등장과 처치
     마을 시설
-      상점 5가지 카테고리
-      은행 + 대출
-      카지노 4가지 게임
-      음식 + NPC
+      상점
+      은행과 대출
+      카지노
+      음식과 NPC
     디자인 패턴
       Strategy BattleManager
       Observer QuestManager
       Singleton GameLogger
       Factory EnemyRegistry
       Thread AutoSaveTask
-      </div>
+      </pre>
     </div>
   </div>
 
@@ -718,7 +675,7 @@ mindmap
 
 <script>
   mermaid.initialize({
-    startOnLoad: true,
+    startOnLoad: false,
     theme: 'dark',
     securityLevel: 'loose',
     flowchart: { curve: 'basis', useMaxWidth: true },
@@ -727,15 +684,27 @@ mindmap
     mindmap: { useMaxWidth: true }
   });
 
-  function switchTab(btn, id) {
+  async function renderTab(tabElement) {
+    const diagrams = tabElement.querySelectorAll('.mermaid:not([data-processed="true"])');
+    if (diagrams.length > 0) {
+      await mermaid.run({ nodes: diagrams });
+    }
+  }
+
+  async function switchTab(btn, id) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(id).classList.add('active');
 
-    // Re-render mermaid diagrams in newly visible tab
-    mermaid.init(undefined, document.getElementById(id).querySelectorAll('.mermaid'));
+    btn.classList.add('active');
+    const target = document.getElementById(id);
+    target.classList.add('active');
+
+    await renderTab(target);
   }
+
+  window.addEventListener('DOMContentLoaded', async () => {
+    await renderTab(document.querySelector('.tab-content.active'));
+  });
 </script>
 
 </body>

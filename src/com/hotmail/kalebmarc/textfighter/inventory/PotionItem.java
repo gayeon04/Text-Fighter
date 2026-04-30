@@ -6,9 +6,8 @@ import com.hotmail.kalebmarc.textfighter.player.Potion;
 public class PotionItem implements Item {
 
     public enum PotionType {
-        SURVIVAL("생존 포션", "최대 체력의 25% 회복"),
-        RECOVERY("회복 포션", "최대 체력의 75% 회복");
-
+        SURVIVAL("Survival Potion", "Restores 25% of max health"),
+        RECOVERY("Recovery Potion", "Restores 75% of max health");
         private final String displayName;
         private final String description;
 

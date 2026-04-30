@@ -89,8 +89,7 @@ public class Inventory<T extends Item> {
 
     public void printSummary() {
         if (items.isEmpty()) {
-            System.out.println("  (인벤토리가 비어 있습니다)");
-            return;
+            System.out.println("  (Inventory is empty)");            return;
         }
         getSummary().forEach((name, qty) ->
                 System.out.printf("  %-16s x%d%n", name, qty)

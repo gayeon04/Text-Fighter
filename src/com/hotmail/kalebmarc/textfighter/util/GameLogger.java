@@ -84,20 +84,17 @@ public class GameLogger {
 
     /** 전체 로그 출력 */
     public void printAll() {
-        System.out.println("\n[GameLogger - 전체 로그 " + logs.size() + "건]");
-        logs.forEach(System.out::println);
+        System.out.println("\n[GameLogger - All Logs: " + logs.size() + "]");        logs.forEach(System.out::println);
     }
 
     /** 레벨별 로그 수 요약 */
     public void printSummary() {
-        System.out.println("\n[GameLogger 요약]");
-        for (LogLevel level : LogLevel.values()) {
+        System.out.println("\n[GameLogger Summary]");        for (LogLevel level : LogLevel.values()) {
             long count = logs.stream()
                     .filter(l -> l.contains("[" + level + "]"))
                     .count();
             if (count > 0) {
-                System.out.printf("  %-8s: %d건%n", level, count);
-            }
+                System.out.printf("  %-8s: %d%n", level, count);            }
         }
     }
 

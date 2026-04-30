@@ -12,7 +12,7 @@ public class CriticalQuest extends Quest {
     private int       currentCrits = 0;
 
     public CriticalQuest(String title, int requiredCrits, int rewardCoins) {
-        super(title, "크리티컬 히트를 " + requiredCrits + "번 내세요.", rewardCoins);
+        super(title, "Land " + requiredCrits + " critical hits.", rewardCoins);
         this.requiredCrits = requiredCrits;
     }
 
@@ -22,8 +22,7 @@ public class CriticalQuest extends Quest {
         if (event != GameEvent.CRITICAL_HIT) return;
 
         currentCrits++;
-        System.out.printf("   [퀘스트] %s: %d / %d%n", title, currentCrits, requiredCrits);
-        if (currentCrits >= requiredCrits) {
+        System.out.printf("   [Quest] %s: %d / %d%n", title, currentCrits, requiredCrits);        if (currentCrits >= requiredCrits) {
             complete();
         }
     }

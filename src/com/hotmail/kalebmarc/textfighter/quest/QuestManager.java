@@ -41,8 +41,7 @@ public class QuestManager {
      */
     public void subscribe(GameObserver observer) {
         observers.add(observer);
-        System.out.println("   [퀘스트 등록] " + observer.getName());
-    }
+        System.out.println("   [Quest Registered] " + observer.getName());    }
 
     /**
      * 퀘스트 해제 (unsubscribe).
@@ -83,19 +82,17 @@ public class QuestManager {
      * 전체 퀘스트 진행 상황 출력.
      */
     public void printStatus() {
-        System.out.println("\n[퀘스트 현황]");
-        System.out.println("  진행 중: " + getActiveQuests().size() + "개");
-        System.out.println("  완료:    " + getCompletedQuests().size() + "개");
-
+        System.out.println("\n[Quest Status]");
+        System.out.println("  Active:    " + getActiveQuests().size());
+        System.out.println("  Completed: " + getCompletedQuests().size());
         getActiveQuests().stream()
                 .filter(o -> o instanceof Quest)
                 .map(o -> (Quest) o)
-                .forEach(q -> System.out.printf("  ⏳ %s - %s%n", q.getTitle(), q.getDescription()));
-
+                .forEach(q -> System.out.printf("  [Active] %s - %s%n", q.getTitle(), q.getDescription()));
         getCompletedQuests().stream()
                 .filter(o -> o instanceof Quest)
                 .map(o -> (Quest) o)
-                .forEach(q -> System.out.printf("  ✅ %s%n", q.getTitle()));
+                .forEach(q -> System.out.printf("  [Done] %s%n", q.getTitle()));
     }
 
     public int getTotalObservers() { return observers.size(); }

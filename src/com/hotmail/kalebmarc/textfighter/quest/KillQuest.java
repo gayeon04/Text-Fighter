@@ -17,8 +17,8 @@ public class KillQuest extends Quest {
     public KillQuest(String title, String targetEnemy, int requiredKills, int rewardCoins) {
         super(title,
                 targetEnemy != null
-                        ? targetEnemy + "을(를) " + requiredKills + "번 처치하세요."
-                        : "적을 " + requiredKills + "번 처치하세요.",
+                        ? "Defeat " + targetEnemy + " " + requiredKills + " times."
+                        : "Defeat " + requiredKills + " enemies.",
                 rewardCoins);
         this.targetEnemy   = targetEnemy;
         this.requiredKills = requiredKills;
@@ -36,8 +36,7 @@ public class KillQuest extends Quest {
 
         if (matches) {
             currentKills++;
-            System.out.printf("   [퀘스트] %s: %d / %d%n", title, currentKills, requiredKills);
-            if (currentKills >= requiredKills) {
+            System.out.printf("   [Quest] %s: %d / %d%n", title, currentKills, requiredKills);            if (currentKills >= requiredKills) {
                 complete();
             }
         }

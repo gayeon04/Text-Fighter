@@ -120,16 +120,16 @@ public class Game {
 
 		// 멀티스레드: 30초마다 자동저장
 		autoSave = new AutoSaveTask(() -> {
-			Saves.save(false);  // false = 기존 파일 덮어쓰기
-			logger.save("자동저장 완료");
+			Saves.save(false);
+			logger.save("Auto-save complete");
 		}, 30);
 
-		// Observer Pattern: 퀘스트 등록
-		questManager.subscribe(new KillQuest("좀비 사냥꾼",  "Zombie", 3,  50));
-		questManager.subscribe(new KillQuest("몬스터 헌터",   null,     5, 100));
-		questManager.subscribe(new CriticalQuest("크리티컬 마스터", 2, 80));
+		// Observer Pattern: quest registration
+		questManager.subscribe(new KillQuest("Zombie Hunter",  "Zombie", 3,  50));
+		questManager.subscribe(new KillQuest("Monster Hunter", null,     5, 100));
+		questManager.subscribe(new CriticalQuest("Critical Master", 2, 80));
 
-		logger.info("게임 시작");
+		logger.info("Game started");
 
 		GameUtils.showPopup(Constants.HEADER,
 				Constants.SUB_HEADER,
@@ -209,16 +209,16 @@ public class Game {
 			Ui.println("     Enemy Health: " + Enemy.get().getHeathStr());
 			Ui.println("     Enemy's First Aid Kit's: " + Enemy.get().getFirstAidKit());
 			Ui.println("------------------------------------------------------------------");
-			Ui.println("1) 전투");
-			Ui.println("2) 집으로");
-			Ui.println("3) 마을로");
-			Ui.println("4) 응급 치료 키트 사용");
-			Ui.println("5) 포션 사용");
-			Ui.println("6) 음식 먹기");
-			Ui.println("7) 인스타 힐 사용");
-			Ui.println("8) POWER 사용");
-			Ui.println("9) 도망치기 (획득 XP 소멸)");
-			Ui.println("10) 게임 종료 (자동 저장)");
+			Ui.println("1) Fight");
+			Ui.println("2) Go home");
+			Ui.println("3) Go to town");
+			Ui.println("4) Use first-aid kit");
+			Ui.println("5) Use potion");
+			Ui.println("6) Eat food");
+			Ui.println("7) Use Insta-Heal");
+			Ui.println("8) Use POWER");
+			Ui.println("9) Run away (lose battle XP)");
+			Ui.println("10) Quit (auto-save)");
 			Ui.println("------------------------------------------------------------------");
 
 			switch (Ui.getValidInt()) {
@@ -235,9 +235,9 @@ public class Game {
 
 					if (damage > 0) {
 						boolean killed = Enemy.get().takeDamage(damage);
-						logger.battle(Weapon.get().getName() + " → " + damage + " 데미지");
+						logger.battle(Weapon.get().getName() + " -> " + damage + " damage");
 
-						// 크리티컬 여부에 따라 ATTACK/CRITICAL 중 하나만 기록 (중복 집계 방지)
+						// record only ATTACK or CRITICAL per hit to avoid double-counting
 						boolean isCritical = damage >= Weapon.get().getDamageMax() * 1.8;
 						if (isCritical) {
 							battleRecord.record(BattleRecord.EventType.CRITICAL, damage, Weapon.get().getName());
@@ -247,22 +247,20 @@ public class Game {
 						}
 
 						Ui.println("----------------------------------------------------");
-						Ui.println(Enemy.get().getName() + "을(를) 공격했습니다!");
-						Ui.println(Weapon.get().getName() + "으로 " + damage + " 데미지!");
+						Ui.println("You attacked " + Enemy.get().getName() + "!");
+						Ui.println(Weapon.get().getName() + " dealt " + damage + " damage!");
 						Ui.println("----------------------------------------------------");
-						Ui.println("내 체력: " + getStr());
-						Ui.println("적 체력: " + Enemy.get().getHeathStr());
+						Ui.println("Your health: " + getStr());
+						Ui.println("Enemy health: " + Enemy.get().getHeathStr());
 						Ui.println("----------------------------------------------------");
 
 						if (killed) {
-							// Observer Pattern: 처치 이벤트 발행 → 퀘스트 자동 처리
 							questManager.notify(GameEvent.ENEMY_KILLED, Enemy.get().getName());
 							battleRecord.record(BattleRecord.EventType.KILL, 1, Enemy.get().getName());
-							logger.battle(Enemy.get().getName() + " 처치!");
+							logger.battle(Enemy.get().getName() + " defeated!");
 						}
 
 					} else {
-						// 빗나감 - 적이 반격
 						battleRecord.record(BattleRecord.EventType.MISS, 0, Weapon.get().getName());
 						int enemyDmg = Enemy.get().getDamageMin()
 								+ new java.util.Random().nextInt(
@@ -270,13 +268,13 @@ public class Game {
 						);
 						Health.takeDamage(enemyDmg);
 						battleRecord.record(BattleRecord.EventType.HIT, enemyDmg, Enemy.get().getName());
-						logger.battle("빗나감! " + Enemy.get().getName() + " 반격 → " + enemyDmg + " 피해");
+						logger.battle("Missed! " + Enemy.get().getName() + " counterattacked -> " + enemyDmg + " damage");
 						Ui.println("----------------------------------------------------");
-						Ui.println("공격이 빗나갔습니다!");
-						Ui.println(Enemy.get().getName() + "의 반격 → " + enemyDmg + " 피해!");
+						Ui.println("Attack missed!");
+						Ui.println(Enemy.get().getName() + " counterattacked -> " + enemyDmg + " damage!");
 						Ui.println("----------------------------------------------------");
-						Ui.println("내 체력: " + getStr());
-						Ui.println("적 체력: " + Enemy.get().getHeathStr());
+						Ui.println("Your health: " + getStr());
+						Ui.println("Enemy health: " + Enemy.get().getHeathStr());
 						Ui.println("----------------------------------------------------");
 					}
 					Ui.pause();
@@ -292,23 +290,23 @@ public class Game {
 
 				case 4:
 					FirstAid.use();
-					battleRecord.record(BattleRecord.EventType.POTION_USED, 20, "응급 치료 키트");
+					battleRecord.record(BattleRecord.EventType.POTION_USED, 20, "First-Aid Kit");
 					break;
 
 				case 5:
 					Ui.cls();
-					Ui.println("어떤 포션을 사용하겠습니까?");
-					Ui.println("1) 생존 포션");
-					Ui.println("2) 회복 포션");
-					Ui.println("3) 뒤로");
+					Ui.println("Which potion would you like to use?");
+					Ui.println("1) Survival Potion");
+					Ui.println("2) Recovery Potion");
+					Ui.println("3) Back");
 					switch (Ui.getValidInt()) {
 						case 1:
 							Potion.use("survival");
-							battleRecord.record(BattleRecord.EventType.POTION_USED, 0, "생존 포션");
+							battleRecord.record(BattleRecord.EventType.POTION_USED, 0, "Survival Potion");
 							break;
 						case 2:
 							Potion.use("recovery");
-							battleRecord.record(BattleRecord.EventType.POTION_USED, 0, "회복 포션");
+							battleRecord.record(BattleRecord.EventType.POTION_USED, 0, "Recovery Potion");
 							break;
 					}
 					break;
@@ -326,12 +324,11 @@ public class Game {
 					break;
 
 				case 9:
-					// Observer Pattern: 도망 이벤트 발행
 					questManager.notify(GameEvent.RAN_AWAY, null);
-					battleRecord.record(BattleRecord.EventType.RAN_AWAY, 0, "도망");
-					logger.info("전투 도망");
+					battleRecord.record(BattleRecord.EventType.RAN_AWAY, 0, "Ran away");
+					logger.info("Ran from battle");
 					Ui.cls();
-					Ui.popup("전투에서 도망쳤습니다.", "도망", JOptionPane.INFORMATION_MESSAGE);
+					Ui.popup("You ran away from the battle.", "Ran Away", JOptionPane.INFORMATION_MESSAGE);
 					Enemy.encounterNew();
 					break;
 
@@ -340,7 +337,7 @@ public class Game {
 					autoSave.stop();
 					printBattleReport();
 					questManager.printStatus();
-					logger.info("게임 종료");
+					logger.info("Game ended");
 					return;
 
 				case 0:
@@ -388,7 +385,7 @@ public class Game {
 		while (true) {
 			Ui.cls();
 			Ui.println("------------------------------------------------------------------");
-			Ui.println("                        마을에 오신 것을 환영합니다                 ");
+			Ui.println("                           Welcome to Town                          ");
 			Ui.println("--Score Info--");
 			Ui.println("     Kill Streak: " + Stats.kills);
 			Ui.println("     Highest Kill Streak: " + Stats.highScore);
@@ -401,12 +398,12 @@ public class Game {
 			Ui.println("          Recovery: " + Potion.get("recovery"));
 			Ui.println("     Equipped Weapon: " + Weapon.get().getName());
 			Ui.println("------------------------------------------------------------------");
-			Ui.println("1) 카지노");
-			Ui.println("2) 집");
-			Ui.println("3) 은행");
-			Ui.println("4) 상점");
-			Ui.println("5) 체력 업그레이드");
-			Ui.println("6) 뒤로");
+			Ui.println("1) Casino");
+			Ui.println("2) Home");
+			Ui.println("3) Bank");
+			Ui.println("4) Shop");
+			Ui.println("5) Upgrade health");
+			Ui.println("6) Back");
 			Ui.println("------------------------------------------------------------------");
 
 			switch (Ui.getValidInt()) {
@@ -425,7 +422,7 @@ public class Game {
 		while (true) {
 			Ui.cls();
 			Ui.println("------------------------------------------------------------------");
-			Ui.println("                        집에 오신 것을 환영합니다                   ");
+			Ui.println("                             Welcome Home                            ");
 			Ui.println("--Score Info--");
 			Ui.println("     Kill Streak: " + Stats.kills);
 			Ui.println("     Highest Kill Streak: " + Stats.highScore);
@@ -438,16 +435,16 @@ public class Game {
 			Ui.println("          Recovery: " + Potion.get("recovery"));
 			Ui.println("     Equipped Weapon: " + Weapon.get().getName());
 			Ui.println("------------------------------------------------------------------");
-			Ui.println("1) 무기 장착");
-			Ui.println("2) 방어구 장착");
-			Ui.println("3) 아이템 상자 보기");
-			Ui.println("4) 업적");
-			Ui.println("5) 통계");
-			Ui.println("6) 정보");
-			Ui.println("7) 설정");
-			Ui.println("8) 도움말");
-			Ui.println("9) 크레딧");
-			Ui.println("10) 뒤로");
+			Ui.println("1) Equip weapon");
+			Ui.println("2) Equip armour");
+			Ui.println("3) View chest");
+			Ui.println("4) Achievements");
+			Ui.println("5) Stats");
+			Ui.println("6) About");
+			Ui.println("7) Settings");
+			Ui.println("8) Help");
+			Ui.println("9) Credits");
+			Ui.println("10) Back");
 			Ui.println("------------------------------------------------------------------");
 
 			switch (Ui.getValidInt()) {
@@ -469,8 +466,8 @@ public class Game {
 	private static String getDifficulty() {
 		GameUtils.showPopup(Constants.HEADER,
 				Constants.SUB_HEADER,
-				asList("난이도를 선택하세요"),
-				asList("나가기", "쉬움", "어려움")
+				asList("Choose a difficulty"),
+				asList("Exit", "Easy", "Hard")
 		);
 		if (!SCAN.hasNextInt()) { Ui.cls(); return "Exit"; }
 		int c = SCAN.nextInt();

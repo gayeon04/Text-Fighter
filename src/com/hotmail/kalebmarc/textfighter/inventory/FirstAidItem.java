@@ -7,12 +7,12 @@ public class FirstAidItem implements Item {
 
     @Override
     public String getName() {
-        return "응급 치료 키트";
+        return "First-Aid Kit";
     }
 
     @Override
     public String getDescription() {
-        return "체력 20 회복";
+        return "Restores 20 health";
     }
 
     @Override

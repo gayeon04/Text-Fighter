@@ -84,24 +84,23 @@ public class BattleAnalyzer {
         BattleRecord record = result.getRecord();
 
         System.out.println("\n╔══════════════════════════════════════╗");
-        System.out.println("║         전투 분석 리포트              ║");
+        System.out.println("║         Battle Analysis Report        ║");
         System.out.println("╠══════════════════════════════════════╣");
-        System.out.printf ("║  플레이어: %-26s║%n", record.getPlayerName());
+        System.out.printf ("║  Player : %-27s║%n", record.getPlayerName());
         System.out.println("╠══════════════════════════════════════╣");
-        System.out.printf ("║  칭호: %-29s║%n", result.getTitle().getTitle());
+        System.out.printf ("║  Title  : %-27s║%n", result.getTitle().getTitle());
         System.out.println("╠══════════════════════════════════════╣");
-        System.out.println("║  총평:                               ║");
+        System.out.println("║  Comment:                             ║");
         System.out.printf ("║    %-34s║%n", result.getTitle().getComment().split("\n")[0]);
         System.out.println("╠══════════════════════════════════════╣");
 
-        // 통계 (Stream으로 집계한 값들)
-        System.out.printf ("║  가한 데미지  : %-21d║%n", record.getTotalDamageDealt());
-        System.out.printf ("║  받은 데미지  : %-21d║%n", record.getTotalDamageTaken());
-        System.out.printf ("║  전투 효율    : %-19.1f%%║%n", result.getEfficiency());
-        System.out.printf ("║  최대 단타    : %-21d║%n", record.getMaxSingleDamage());
-        System.out.printf ("║  크리티컬     : %-21d║%n", record.countEvents(BattleRecord.EventType.CRITICAL));
-        System.out.printf ("║  빗나감       : %-21d║%n", record.countEvents(BattleRecord.EventType.MISS));
-        System.out.printf ("║  포션 사용    : %-21d║%n", record.countEvents(BattleRecord.EventType.POTION_USED));
+        System.out.printf ("║  Damage dealt : %-21d║%n", record.getTotalDamageDealt());
+        System.out.printf ("║  Damage taken : %-21d║%n", record.getTotalDamageTaken());
+        System.out.printf ("║  Efficiency   : %-19.1f%%║%n", result.getEfficiency());
+        System.out.printf ("║  Max hit      : %-21d║%n", record.getMaxSingleDamage());
+        System.out.printf ("║  Criticals    : %-21d║%n", record.countEvents(BattleRecord.EventType.CRITICAL));
+        System.out.printf ("║  Misses       : %-21d║%n", record.countEvents(BattleRecord.EventType.MISS));
+        System.out.printf ("║  Potions used : %-21d║%n", record.countEvents(BattleRecord.EventType.POTION_USED));
         System.out.println("╚══════════════════════════════════════╝");
     }
 }
