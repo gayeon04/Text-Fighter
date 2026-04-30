@@ -105,8 +105,7 @@ src/com/hotmail/kalebmarc/textfighter/
 | `run.bat`   | **branch : master** 영어 출력, 한글이 깨지는 환경에서 사용하세요 |
 
 
-> **참고:** `실행_한글.bat`은 콘솔 인코딩을 UTF-8(65001)로 설정 후 실행합니다.
-> 한글이 깨지는 경우 `run_english.bat`을 사용하세요.
+
 
 ### 개발자 실행 방법 (Gradle)
 
